@@ -1,0 +1,14 @@
+name: ImplodusPorts
+version: 0.0.1
+api-version: 1.19
+author: NinjaMandalorian
+main: me.NinjaMandalorian.ImplodusPorts.ImplodusPorts
+depend: [Vault]
+
+commands:
+  implodusports:
+    description: Primary command
+    softdepend: [Vault]
+    aliases:
+      - iports
+  
