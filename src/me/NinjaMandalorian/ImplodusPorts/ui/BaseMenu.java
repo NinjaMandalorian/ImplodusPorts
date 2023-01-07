@@ -1,6 +1,5 @@
 package me.NinjaMandalorian.ImplodusPorts.ui;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
@@ -8,6 +7,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
+import org.bukkit.inventory.ItemStack;
+
+import me.NinjaMandalorian.ImplodusPorts.ui.tasks.BaseTask;
 
 public class BaseMenu implements InventoryHolder {
     
@@ -76,7 +78,13 @@ public class BaseMenu implements InventoryHolder {
         }
         
         public Builder setButton(int slot, BaseButton button) {
-            this.menuButtons.put(null, button);
+            this.menuButtons.put(slot, button);
+            return this;
+        }
+        
+        // So you don't have to do a useless instance creation in the building phase.
+        public Builder setButton(int slot, ItemStack itemStack, BaseTask task) {
+            this.menuButtons.put(slot, BaseButton.create().itemStack(itemStack).task(task));
             return this;
         }
         
