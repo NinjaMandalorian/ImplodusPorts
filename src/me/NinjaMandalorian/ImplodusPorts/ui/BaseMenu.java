@@ -22,7 +22,8 @@ public class BaseMenu implements InventoryHolder {
     
     @Override
     public Inventory getInventory() {
-        return null;
+        return this.inventory;
+    }
     }
     
     /**
