@@ -17,6 +17,8 @@ public class PortMenu {
                 .setButton(0, new BaseButton(
                         new ItemStack(Material.BIRCH_BOAT), new MessageTask("Birch boat!"))
                         )
+                .title("Bingle bongle")
+                .rows(5)
                 .build();
         
         return builderMenu;

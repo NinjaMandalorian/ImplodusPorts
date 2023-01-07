@@ -31,7 +31,7 @@ public class ImplodusPortsCommands implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         sender.sendMessage("HAHA");
         if (sender instanceof Player player) {
-            PortMenu.createPortMenu(player, new Port("test-port", player.getLocation(), 1)).open(player);
+            PortMenu.createPortMenu(player, null).open(player);
         }
         return false;
     }
