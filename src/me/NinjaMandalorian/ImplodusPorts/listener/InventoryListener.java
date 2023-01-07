@@ -22,7 +22,7 @@ public class InventoryListener implements Listener {
             int slotNum = e.getRawSlot();
             if (slotNum + 1 > e.getInventory().getSize()) return;
             
-            menu.getButton(slotNum);
+            menu.getButton(slotNum).getTask().run(e);
         } else return;
     }
 }

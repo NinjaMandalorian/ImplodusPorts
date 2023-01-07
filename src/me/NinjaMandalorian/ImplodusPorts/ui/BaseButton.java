@@ -1,7 +1,5 @@
 package me.NinjaMandalorian.ImplodusPorts.ui;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 
 import org.bukkit.inventory.ItemStack;
