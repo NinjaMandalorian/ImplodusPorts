@@ -9,6 +9,7 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
 import me.NinjaMandalorian.ImplodusPorts.ImplodusPorts;
+import me.NinjaMandalorian.ImplodusPorts.ui.PortMenu;
 
 public class ImplodusPortsCommands implements CommandExecutor, TabCompleter {
 
@@ -27,6 +28,7 @@ public class ImplodusPortsCommands implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         sender.sendMessage("HAHA");
+        PortMenu.createPortMenu().open((Player) sender);
         return false;
     }
 
