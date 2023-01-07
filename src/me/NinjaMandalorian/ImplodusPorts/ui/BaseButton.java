@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -98,6 +99,11 @@ public class BaseButton {
     
     public BaseButton lore(String lore) {
         return lore(Arrays.asList(lore.split("\n")));
+    }
+    
+    public BaseButton run(InventoryClickEvent e) {
+        this.task.run(e);
+        return this;
     }
     
 }
