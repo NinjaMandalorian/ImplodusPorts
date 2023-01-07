@@ -1,10 +1,12 @@
 package me.NinjaMandalorian.ImplodusPorts;
 
 import org.bukkit.Bukkit;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import me.NinjaMandalorian.ImplodusPorts.command.ImplodusPortsCommands;
 import me.NinjaMandalorian.ImplodusPorts.data.DataManager;
+import me.NinjaMandalorian.ImplodusPorts.listener.InventoryListener;
 import me.NinjaMandalorian.ImplodusPorts.settings.Settings;
 
 public class ImplodusPorts extends JavaPlugin {
@@ -19,6 +21,9 @@ public class ImplodusPorts extends JavaPlugin {
         Settings.init();
         
         new ImplodusPortsCommands();
+        
+        PluginManager PluginManager = getServer().getPluginManager();
+        PluginManager.registerEvents(new InventoryListener(), instance);
     }
     
     public void onDisable() {
