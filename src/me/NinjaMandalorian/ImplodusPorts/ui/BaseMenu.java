@@ -2,6 +2,7 @@ package me.NinjaMandalorian.ImplodusPorts.ui;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -11,7 +12,7 @@ import org.bukkit.inventory.InventoryHolder;
 public class BaseMenu implements InventoryHolder {
     
     private Inventory inventory;
-    private ArrayList<BaseButton> menuButtons;
+    private HashMap<Integer,BaseButton> menuButtons;
     
     public BaseMenu(Inventory inventory, String menuTitle) {
         // Re-creates inventory with BaseMenu as holder
@@ -22,6 +23,13 @@ public class BaseMenu implements InventoryHolder {
     private BaseMenu(Builder builder) {
         this.inventory = Bukkit.createInventory(this, builder.menuSize, builder.menuTitle);
         
+        // Creates all items in inventory
+        for (Entry<Integer, BaseButton> buttonEntry : builder.menuButtons.entrySet()) {
+            inventory.setItem(buttonEntry.getKey(), buttonEntry.getValue().getItemStack() );
+        }
+        
+        this.menuButtons = builder.menuButtons;
+        
     }
     
     public void open(Player player) {
@@ -31,6 +39,16 @@ public class BaseMenu implements InventoryHolder {
     @Override
     public Inventory getInventory() {
         return this.inventory;
+    }
+    
+    /**
+     * Gets button, indexed from 0:(size-1)
+     * @param slotNum - Slot number
+     * @return Button of slot or null if empty.
+     */
+    public BaseButton getButton(int slotNum) {
+        if (slotNum > this.inventory.getSize() - 1) return null;
+        return this.menuButtons.get(slotNum);
     }
     
     public static Builder createBuilder() {
@@ -47,25 +65,24 @@ public class BaseMenu implements InventoryHolder {
         
         Builder() {}
         
+        public Builder title(String title) {
+            this.menuTitle = title;
+            return this;
+        }
+        
+        public Builder rows(int num) {
+            this.menuSize = 9 * Math.min(num, 6);
+            return this;
+        }
+        
         public Builder setButton(int slot, BaseButton button) {
-            menuButtons.put(null, button);
+            this.menuButtons.put(null, button);
             return this;
         }
         
         public BaseMenu build() {
-            
             return new BaseMenu(this);
         }
-    }
-
-    /**
-     * Gets button, indexed from 0:(size-1)
-     * @param slotNum - Slot number
-     * @return Button of slot or null if empty.
-     */
-    public BaseButton getButton(int slotNum) {
-        if (slotNum > this.inventory.getSize() - 1) return null;
-        return this.menuButtons.get(slotNum);
     }
     
 }
