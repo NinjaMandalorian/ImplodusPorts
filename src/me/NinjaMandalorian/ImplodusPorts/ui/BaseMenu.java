@@ -89,14 +89,16 @@ public class BaseMenu implements InventoryHolder {
 
         public Builder fillRow(int row) {
             
-            for (int i = 9 * row; i < 9 * (row + 1); i++) {
-                if (!this.menuButtons.containsKey(i)) {
-                    this.menuButtons.put(i, BaseButton.background());
+            for (int i = 0; i < 9; i++) {
+                int slot = 9*row + i;
+                if (!this.menuButtons.containsKey(slot)) {
+                    this.menuButtons.put(slot, BaseButton.background());
                 }
             }
             
             return this;
         }
+        
         public Builder fillColumn(int column) {
             
             for (int i = 0; i < (this.menuSize/9); i++) {
