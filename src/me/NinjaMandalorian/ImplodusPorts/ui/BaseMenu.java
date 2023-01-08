@@ -16,17 +16,12 @@ public class BaseMenu implements InventoryHolder {
     private Inventory inventory;
     private HashMap<Integer,BaseButton> menuButtons;
     
-    public BaseMenu(Inventory inventory, String menuTitle) {
-        // Re-creates inventory with BaseMenu as holder
-        this.inventory = Bukkit.createInventory(this, inventory.getSize(), menuTitle);
-        this.inventory.setContents(inventory.getContents());
-    }
-    
     private BaseMenu(Builder builder) {
         this.inventory = Bukkit.createInventory(this, builder.menuSize, builder.menuTitle);
         
         // Creates all items in inventory
         for (Entry<Integer, BaseButton> buttonEntry : builder.menuButtons.entrySet()) {
+            Bukkit.getLogger().info(String.valueOf(buttonEntry.getKey()) +  " - " + buttonEntry.getValue().getItemStack().toString());
             inventory.setItem(buttonEntry.getKey(), buttonEntry.getValue().getItemStack() );
         }
         
@@ -90,6 +85,17 @@ public class BaseMenu implements InventoryHolder {
         
         public BaseMenu build() {
             return new BaseMenu(this);
+        }
+
+        public Builder fillRow(int row) {
+            
+            for (int i = 9 * row; i < 9 * (row + 1); i++) {
+                if (!this.menuButtons.containsKey(i)) {
+                    this.menuButtons.put(i, BaseButton.background());
+                }
+            }
+            
+            return this;
         }
     }
     
