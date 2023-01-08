@@ -60,6 +60,13 @@ public class BaseButton {
         return button;
     }
     
+    public static BaseButton background() {
+        BaseButton button = new BaseButton();
+        button.itemStack = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
+        button = button.name("");
+        return button;
+    }
+    
     public BaseButton glow() {
         this.itemStack.addUnsafeEnchantment(Enchantment.LUCK, 1);
         ItemMeta meta = this.itemStack.getItemMeta();
