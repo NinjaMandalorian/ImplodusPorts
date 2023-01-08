@@ -97,6 +97,21 @@ public class BaseMenu implements InventoryHolder {
             
             return this;
         }
+        public Builder fillColumn(int column) {
+            
+            for (int i = 0; i < (this.menuSize/9); i++) {
+                int slot = 9*i +column;
+                if (!this.menuButtons.containsKey(slot)) {
+                    this.menuButtons.put(slot, BaseButton.background());
+                }
+            }
+            
+            return this;
+        }
+        
+        public Builder fillOutline() {
+            return this.fillColumn(0).fillColumn(8).fillRow(0).fillRow((this.menuSize/9)-1);
+        }
     }
     
 }
