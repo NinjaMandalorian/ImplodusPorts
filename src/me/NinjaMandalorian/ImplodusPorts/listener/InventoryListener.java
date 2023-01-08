@@ -1,10 +1,10 @@
 package me.NinjaMandalorian.ImplodusPorts.listener;
 
-import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
+import me.NinjaMandalorian.ImplodusPorts.ui.BaseButton;
 import me.NinjaMandalorian.ImplodusPorts.ui.BaseMenu;
 
 public class InventoryListener implements Listener {
@@ -22,7 +22,8 @@ public class InventoryListener implements Listener {
             int slotNum = e.getRawSlot();
             if (slotNum + 1 > e.getInventory().getSize()) return;
             
-            menu.getButton(slotNum).getTask().run(e);
+            BaseButton button = menu.getButton(slotNum);
+            if (button != null) button.run(e);
         } else return;
     }
 }

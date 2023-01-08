@@ -102,7 +102,7 @@ public class BaseButton {
     }
     
     public BaseButton run(InventoryClickEvent e) {
-        this.task.run(e);
+        if (this.task != null) this.task.run(e);
         return this;
     }
     
