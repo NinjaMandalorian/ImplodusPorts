@@ -9,6 +9,11 @@ import me.NinjaMandalorian.ImplodusPorts.data.DataManager;
 import me.NinjaMandalorian.ImplodusPorts.listener.InventoryListener;
 import me.NinjaMandalorian.ImplodusPorts.settings.Settings;
 
+/**
+ * Main class for ImplodusPorts plugin
+ * @author NinjaMandalorian
+ *
+ */
 public class ImplodusPorts extends JavaPlugin {
     
     private static ImplodusPorts instance;
