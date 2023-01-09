@@ -91,6 +91,7 @@ public class BaseButton {
     }
     
     public BaseButton name(String name) {
+        name = ChatColor.translateAlternateColorCodes('&', name);
         ItemMeta meta = this.itemStack.getItemMeta();
         meta.setDisplayName(ChatColor.RESET + name);
         this.itemStack.setItemMeta(meta);
