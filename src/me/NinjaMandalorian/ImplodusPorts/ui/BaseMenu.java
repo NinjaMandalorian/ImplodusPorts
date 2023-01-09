@@ -21,7 +21,7 @@ public class BaseMenu implements InventoryHolder {
         
         // Creates all items in inventory
         for (Entry<Integer, BaseButton> buttonEntry : builder.menuButtons.entrySet()) {
-            Bukkit.getLogger().info(String.valueOf(buttonEntry.getKey()) +  " - " + buttonEntry.getValue().getItemStack().toString());
+            if (buttonEntry.getKey() >= builder.menuSize) continue;
             inventory.setItem(buttonEntry.getKey(), buttonEntry.getValue().getItemStack() );
         }
         
