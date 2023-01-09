@@ -10,6 +10,7 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 
 import me.NinjaMandalorian.ImplodusPorts.ui.tasks.BaseTask;
+import net.md_5.bungee.api.ChatColor;
 
 public class BaseMenu implements InventoryHolder {
     
@@ -63,7 +64,7 @@ public class BaseMenu implements InventoryHolder {
         Builder() {}
         
         public Builder title(String title) {
-            this.menuTitle = title;
+            this.menuTitle = ChatColor.translateAlternateColorCodes('&', title);
             return this;
         }
         
