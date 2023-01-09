@@ -16,8 +16,6 @@ public class DataManager {
         plugin = ImplodusPorts.getInstance();
         
         createFolders();
-        
-        plugin.getConfig();
     }
 
     private static void createFolders() {
