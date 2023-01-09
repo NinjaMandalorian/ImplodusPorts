@@ -1,6 +1,10 @@
 package me.NinjaMandalorian.ImplodusPorts.object;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.bukkit.Location;
+import org.bukkit.Material;
 
 /**
  * Port object, handles all interactions with individual ports.
@@ -46,6 +50,24 @@ public class Port {
     
     public String getDisplayName() {
         return this.displayName;
+    }
+    
+    /**
+     * Gets all the icons for each type of port.
+     * @return List of Materials
+     */
+    public static List<Material> getIcons() {
+        return Arrays.asList(Material.GLASS, Material.BIRCH_BOAT, Material.OAK_BOAT, Material.SPRUCE_BOAT, Material.DARK_OAK_BOAT);
+    }
+
+    /**
+     * Gives icon for port size
+     * @param size - Port size
+     * @return Material
+     */
+    public static Material getIcon(int size) {
+        if (size >= getIcons().size()) return Material.GLASS;
+        return getIcons().get(size);
     }
     
 }
