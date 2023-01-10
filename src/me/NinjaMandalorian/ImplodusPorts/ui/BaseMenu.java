@@ -16,6 +16,7 @@ public class BaseMenu implements InventoryHolder {
     
     private Inventory inventory;
     private HashMap<Integer,BaseButton> menuButtons;
+    private String openMessage = null;
     
     private BaseMenu(Builder builder) {
         this.inventory = Bukkit.createInventory(this, builder.menuSize, builder.menuTitle);
@@ -27,11 +28,12 @@ public class BaseMenu implements InventoryHolder {
         }
         
         this.menuButtons = builder.menuButtons;
-        
+        this.openMessage = builder.openMsg;
     }
     
     public void open(Player player) {
         player.openInventory(inventory);
+        if (this.openMessage != null) player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&9[&6iPorts&9] " + openMessage));
     }
     
     @Override
@@ -60,6 +62,7 @@ public class BaseMenu implements InventoryHolder {
         private String menuTitle = "ip-title";
         private int menuSize = 54;
         private HashMap<Integer,BaseButton> menuButtons = new HashMap<Integer,BaseButton>();
+        private String openMsg = null;
         
         Builder() {}
         
@@ -114,6 +117,11 @@ public class BaseMenu implements InventoryHolder {
         
         public Builder fillOutline() {
             return this.fillColumn(0).fillColumn(8).fillRow(0).fillRow((this.menuSize/9)-1);
+        }
+        
+        public Builder openMsg(String msg) {
+            this.openMsg = msg;
+            return this;
         }
     }
     
