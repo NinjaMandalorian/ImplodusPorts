@@ -30,6 +30,22 @@ public class ImplodusPortsCommands implements CommandExecutor, TabCompleter {
         sender.sendMessage("HAHA");
         if (sender instanceof Player player) {
             PortMenu.createPortMenu(player, null).open(player);
+            if (args.length == 0) {
+                return false;
+            }
+            
+            switch(args[0].toLowerCase()) {
+            case "travel":
+                travelCommand(player, StringHelper.remFirst(args));
+                return true;
+            case "debug":
+                args = StringHelper.remFirst(args);
+                Port fakePort = new Port("bingus_town", new Location(Bukkit.getWorld("World"), 0.0, 0.0, 0.0), args.length > 0 ? Integer.parseInt(args[0]) : 1, "Bingus Town");
+                PortMenu.createPortMenu(player, fakePort).open(player);
+                return true;
+            default:
+                
+            }
         }
         return false;
     }
