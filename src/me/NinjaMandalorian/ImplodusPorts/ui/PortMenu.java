@@ -43,6 +43,23 @@ public class PortMenu {
         
         return builderMenu;
             
+    /**
+     * Returns string correlating to port size. Includes color.
+     * @param port - Port size integer
+     * @return Port size string
+     */
+    public static String portSizeString(Port port) {
+        switch(port.getSize()) {
+        case 1:
+            return ChatColor.AQUA + "Jetty";
+        case 2:
+            return ChatColor.DARK_AQUA + "Dock";
+        case 3:
+            return ChatColor.YELLOW + "Harbour";
+        case 4:
+            return ChatColor.DARK_GREEN + "Megaport";
+        }
+        return "";
     }
     
 }

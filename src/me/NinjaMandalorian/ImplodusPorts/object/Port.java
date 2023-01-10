@@ -57,7 +57,7 @@ public class Port {
      * @return List of Materials
      */
     public static List<Material> getIcons() {
-        return Arrays.asList(Material.GLASS, Material.BIRCH_BOAT, Material.OAK_BOAT, Material.SPRUCE_BOAT, Material.DARK_OAK_BOAT);
+        return Arrays.asList(Material.GLASS, Material.BIRCH_BOAT, Material.OAK_BOAT, Material.DARK_OAK_BOAT, Material.MANGROVE_BOAT);
     }
 
     /**
