@@ -1,6 +1,8 @@
 package me.NinjaMandalorian.ImplodusPorts.object;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import org.bukkit.Location;
@@ -13,6 +15,8 @@ import org.bukkit.Material;
  */
 public class Port {
 
+    private static HashMap<String, Port> activePorts = new HashMap<String, Port>();
+    
     private String id;
     private Location signLocation;
     private Location teleportLocation;
@@ -75,5 +79,27 @@ public class Port {
         if (size >= getIcons().size()) return Material.GLASS;
         return getIcons().get(size);
     }
+    
+    /**
+     * Get all Ports
+     * @return List of a Ports
+     */
+    public static HashMap<String,Port> getPorts() {
+        return activePorts;
+    }
+    
+    public static Port getPort(String id) {
+        return activePorts.get(id);
+    }
+    
+    public static Port getPort(Location location) {
+        for (Port port : activePorts.values()) {
+            if (port.getSignLocation().equals(location)) {
+                return port;
+            }
+        }
+        return null;
+    }
+    
     
 }
