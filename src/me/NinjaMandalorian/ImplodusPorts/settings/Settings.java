@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -26,16 +27,29 @@ public class Settings {
         config = plugin.getConfig();
         
         config.options().copyDefaults(false);
-        
         reloadConfig();
         
+    }
+    
+    public static Map<String, Object> getSizeMap(int size) {
+        switch(size) {
+        case 1:
+            return sectionToMap((MemorySection) config.getConfigurationSection("sizes.small"));
+        case 2:
+            return sectionToMap((MemorySection) config.getConfigurationSection("sizes.medium"));
+        case 3:
+            return sectionToMap((MemorySection) config.getConfigurationSection("sizes.large"));
+        case 4:
+            return sectionToMap((MemorySection) config.getConfigurationSection("sizes.mega"));
+        }
+        return null;
     }
     
     /**
      * Reloads the config with the internal config.yml
      */
     public static void reloadConfig() {
-        
+        if (verComp(config.getString("version"), plugin.getDescription().getVersion()) == 1) return;
         // Gets internal config file as a Reader
         Reader defConfigStream = new InputStreamReader(plugin.getResource("config.yml"));
         if (defConfigStream != null) {
@@ -74,7 +88,7 @@ public class Settings {
      * @param current - Current version
      * @return 1 = newer; 0 = same; -1 = older;
      */
-    public static int verComp(String old, String current) {
+    private static int verComp(String old, String current) {
         // Splits versions
         String[] oldArr = old.split("\\.");
         String[] curArr = current.split("\\.");
@@ -94,4 +108,15 @@ public class Settings {
         // Return same if no differences
         return 0;
     }
+
+    private static Map<String, Object> sectionToMap(MemorySection section) {
+        HashMap<String, Object> map = (HashMap<String, Object>) section.getValues(true);
+        
+        for (Entry<String, Object> entry : map.entrySet()) {
+            if (entry.getValue() instanceof MemorySection) map.remove(entry.getKey());
+        }
+        
+        return map;
+    }
+
 }
