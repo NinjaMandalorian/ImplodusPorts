@@ -14,7 +14,8 @@ import org.bukkit.Material;
 public class Port {
 
     private String id;
-    private Location location;
+    private Location signLocation;
+    private Location teleportLocation;
     private int size;
     private String displayName;
     
@@ -25,23 +26,28 @@ public class Port {
      * @param size
      * @param displayName
      */
-    public Port(String id, Location location, int size, String displayName) {
+    public Port(String id, Location sLocation, Location tLocation, int size, String displayName) {
         this.id = id;
-        this.location = location;
+        this.signLocation = sLocation;
+        this.teleportLocation = tLocation;
         this.size = size;
         this.displayName = displayName;
     }
     
-    public Port(String id, Location location, int size) {
-        this(id, location, size, id);
+    public Port(String id, Location sLocation, Location tLocation, int size) {
+        this(id, sLocation, tLocation, size, id);
     }
     
     public String getId() {
         return this.id;
     }
     
-    public Location getLocation() {
-        return this.location;
+    public Location getSignLocation() {
+        return this.signLocation;
+    }
+    
+    public Location getTeleportLocation() {
+        return this.teleportLocation;
     }
     
     public int getSize() {
