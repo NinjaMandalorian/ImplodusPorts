@@ -26,7 +26,6 @@ public class PortHelper {
         for (Port port : toSort) {
             if (port.getSize() == 4) {
                 sortedMap.put(currentPort.distanceTo(port), port);
-                toSort.remove(port);
             }
         }
         
@@ -36,7 +35,9 @@ public class PortHelper {
         
         // Re-uses sortedMap for rest of ports
         for (Port port : toSort) {
-            sortedMap.put(currentPort.distanceTo(port), port);
+            if (port.getSize() != 4) {
+                sortedMap.put(currentPort.distanceTo(port), port);
+            }
         }
         // Adds rest and returns.
         returnList.addAll(sortedMap.values());
