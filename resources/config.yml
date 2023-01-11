@@ -1,6 +1,7 @@
 # Plugin version, do not edit.
 version: 0.0.1
 
+sizes:
    small:
       distance: 500
       cost: 800
