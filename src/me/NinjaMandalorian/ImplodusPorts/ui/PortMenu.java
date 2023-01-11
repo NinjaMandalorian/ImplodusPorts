@@ -54,9 +54,10 @@ public class PortMenu {
         
         return builder.build();
         BaseMenu builderMenu = BaseMenu.createBuilder()
-                .setButton(0, BaseButton.create(Material.ACACIA_BOAT).glow().task(new MessageTask("Boing")))
-                .title("Bingle bongle")
-                .rows(5)
+                .setButton(4, portToButton(port, port))
+                .title("&cGlobal Port Menu")
+                .openMsg("&aOpening &cGlobal Port Menu&a...")
+                .fillOutline()
                 .build();
         
         return builderMenu;
