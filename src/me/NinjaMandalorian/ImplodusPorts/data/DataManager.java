@@ -24,7 +24,7 @@ public class DataManager {
     
     private static ImplodusPorts plugin;
     
-    private static String dataFolder = "plugins" + File.separator + "ImplodusNuclei" + File.separator + "data";
+    private static String dataFolder = "plugins" + File.separator + "ImplodusPorts" + File.separator + "data";
     private static DumperOptions options;
     
     public static void init(){
@@ -64,6 +64,7 @@ public class DataManager {
         try {
             PrintWriter out = new PrintWriter(file.getPath(), "UTF-8");
             out.write(rawData);
+            out.close();
         } catch (UnsupportedEncodingException e) {
             Logger.log("Error: unsupported encoding");
         } catch (FileNotFoundException e) {
@@ -169,7 +170,7 @@ public class DataManager {
             try {
                 file.createNewFile();
             } catch (IOException e) {
-                Logger.log("Encountered error when creating file - " + path);
+                Logger.log("Encountered error when creating file - " + path + " :: " + e.getMessage());
                 return null;
             }
         }
