@@ -37,6 +37,7 @@ public class ImplodusPorts extends JavaPlugin {
     
     public void onDisable() {
         Bukkit.getLogger().info("Disabling ImplodusPorts");
+        PortDataManager.savePortData(Port.getPorts());;
     }
     
     private boolean setupEconomy() {
