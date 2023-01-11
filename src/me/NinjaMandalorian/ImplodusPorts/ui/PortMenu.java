@@ -1,12 +1,30 @@
 package me.NinjaMandalorian.ImplodusPorts.ui;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
+import me.NinjaMandalorian.ImplodusPorts.ImplodusPorts;
 import me.NinjaMandalorian.ImplodusPorts.object.Port;
-import me.NinjaMandalorian.ImplodusPorts.ui.tasks.MessageTask;
+import me.NinjaMandalorian.ImplodusPorts.settings.Settings;
+import me.NinjaMandalorian.ImplodusPorts.ui.BaseMenu.Builder;
+import me.NinjaMandalorian.ImplodusPorts.ui.tasks.CommandTask;
+import me.NinjaMandalorian.ImplodusPorts.ui.tasks.InventoryTask;
+import net.md_5.bungee.api.ChatColor;
 
 public class PortMenu {
 
+    /**
+     * Creates the base menu for a port, showing all travel-able ports & a button to open global menu. 
+     * @param player - Player opening menu
+     * @param port - Port to generate menu from
+     * @return BaseMenu of port
+     */
     public static BaseMenu createPortMenu(Player player, Port port) {
         
         Builder builder = BaseMenu.createBuilder()
@@ -42,7 +60,42 @@ public class PortMenu {
                 .build();
         
         return builderMenu;
+    public static BaseButton portToButton(Port currentPort, Port port) {
+        BaseButton portButton = BaseButton.create();
+        
+        if (currentPort.equals(port)) {
+            // Creating button for current port.
+            portButton = portButton.itemStack(new ItemStack(Port.getIcon(port.getSize())));
+            portButton = portButton.glow().name(port.getDisplayName());
             
+            List<String> lore = Arrays.asList(
+                    ChatColor.GOLD + "Size: " + portSizeString(port)
+                    );
+            
+            portButton = portButton.lore(lore).task(null);
+            
+        } else {
+            // Creating button for travel-able port.
+            portButton = portButton.itemStack(new ItemStack(Port.getIcon(port.getSize())));
+            portButton = portButton.name(port.getDisplayName());
+            
+            int boatSize = Math.min(currentPort.getSize(), port.getSize());
+            Map<String, Object> boatMap = Settings.getSizeMap(boatSize);
+            
+            List<String> lore = Arrays.asList(
+                    ChatColor.GOLD + "Size: " + portSizeString(port),
+                    ChatColor.GOLD + "Travel Time: ",
+                    ChatColor.GOLD + "Cost: " + ImplodusPorts.econ.format(Double.valueOf((Integer) boatMap.get("cost"))),
+                    ChatColor.GREEN + "Click to Travel"
+                    );
+            
+            portButton = portButton.lore(lore);
+            portButton = portButton.task(new CommandTask("/implodusports:iports travel " + currentPort.getId() + "->" + port.getId() ));
+        }
+        
+        return portButton;
+    }
+    
     /**
      * Returns string correlating to port size. Includes color.
      * @param port - Port size integer
