@@ -109,5 +109,10 @@ public class Port {
     public static void initPorts() {
         activePorts = PortDataManager.loadPortData();
     }
+
+    public Double distanceTo(Port port) {
+        if (!this.signLocation.getWorld().equals(port.getSignLocation().getWorld())) return 0.0;
+        return (this.getSignLocation().distance(port.getSignLocation()));
+    }
     
 }
