@@ -96,7 +96,10 @@ public class Port {
     
     public static Port getPort(Location location) {
         for (Port port : activePorts.values()) {
-            if (port.getSignLocation().equals(location)) {
+            Location signLoc = port.getSignLocation();                
+            Bukkit.getLogger().info(location.toString() + " " + signLoc.toString());
+            Bukkit.getLogger().info(location.getBlock().toString() + " " + signLoc.getBlock().toString());
+            if (port.getSignLocation().getBlock().equals(location.getBlock())) {
                 return port;
             }
         }
