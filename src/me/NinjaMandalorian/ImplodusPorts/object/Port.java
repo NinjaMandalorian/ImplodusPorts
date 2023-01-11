@@ -8,6 +8,8 @@ import java.util.List;
 import org.bukkit.Location;
 import org.bukkit.Material;
 
+import me.NinjaMandalorian.ImplodusPorts.data.PortDataManager;
+
 /**
  * Port object, handles all interactions with individual ports.
  * @author NinjaMandalorian
@@ -101,5 +103,8 @@ public class Port {
         return null;
     }
     
+    public static void initPorts() {
+        activePorts = PortDataManager.loadPortData();
+    }
     
 }
