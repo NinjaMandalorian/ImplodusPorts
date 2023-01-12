@@ -51,5 +51,9 @@ public class ImplodusPortsCommands implements CommandExecutor, TabCompleter {
         }
         return false;
     }
+    
+    private void travelCommand(Player player, String[] args) {
+        
+    }
 
 }

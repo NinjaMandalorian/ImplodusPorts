@@ -37,6 +37,9 @@ public class PlayerListener implements Listener {
             if (action.equals(Action.RIGHT_CLICK_BLOCK)) {
                 PortMenu.createPortMenu(player, port).open(player);
                 return;
+            } else if (action.equals(Action.LEFT_CLICK_BLOCK)) {
+                // Work out if user can destroy block (Admin perm or port owner?)
+                return;
             }
         }
     }

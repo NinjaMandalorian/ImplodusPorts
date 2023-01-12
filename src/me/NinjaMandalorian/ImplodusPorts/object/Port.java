@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 
@@ -62,6 +63,18 @@ public class Port {
     
     public String getDisplayName() {
         return this.displayName;
+    }
+    
+    public List<Port> getNearby() {
+        ArrayList<Port> returnList = new ArrayList<Port>();
+        
+        for (int i = 0; i < 14; i++) {
+            returnList.add(new Port("debug"+i, new Location(this.signLocation.getWorld(), 5000 * Math.random(), 70, 5000 * Math.random() - 2500),
+                    new Location(this.signLocation.getWorld(), 0, 70, 20*i),
+                    1 + (int) Math.round(3 *Math.random()) ));
+        }
+        
+        return returnList;
     }
     
     /**

@@ -5,11 +5,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import me.NinjaMandalorian.ImplodusPorts.ImplodusPorts;
+import me.NinjaMandalorian.ImplodusPorts.helper.PortHelper;
 import me.NinjaMandalorian.ImplodusPorts.object.Port;
 import me.NinjaMandalorian.ImplodusPorts.settings.Settings;
 import me.NinjaMandalorian.ImplodusPorts.ui.BaseMenu.Builder;
@@ -45,6 +47,9 @@ public class PortMenu {
         
         int portCount = 0;
         for (Port availablePort : PortHelper.orderPorts(port, port.getNearby())) {
+            Location l = availablePort.getSignLocation();
+            Bukkit.getLogger().info(availablePort.getSize() + " " + port.distanceTo(availablePort));
+            
             
             int slot = slotList.get(portCount);
             
@@ -53,6 +58,17 @@ public class PortMenu {
         }
         
         return builder.build();
+            
+    }
+    
+    /**
+     * Creates the global menu for a port, where every public port is in view 
+     * @param player - Player opening menu
+     * @param port - Port to generate menu from
+     * @return BaseMenu of port
+     */
+    public static BaseMenu createPortGlobalMenu(Player player, Port port) {
+
         BaseMenu builderMenu = BaseMenu.createBuilder()
                 .setButton(4, portToButton(port, port))
                 .title("&cGlobal Port Menu")
@@ -61,6 +77,8 @@ public class PortMenu {
                 .build();
         
         return builderMenu;
+    }
+    
     public static BaseButton portToButton(Port currentPort, Port port) {
         BaseButton portButton = BaseButton.create();
         
