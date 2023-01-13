@@ -11,4 +11,20 @@ public class StringHelper {
         return returnArr;
     }
     
+    public static String capitalize(String string) {
+        String returnString = "";
+        
+        char[] characters = string.toCharArray();
+        returnString += Character.toUpperCase(characters[0]);
+        for (int i = 1; i < characters.length; i++) {
+            if(!Character.isAlphabetic(characters[i-1])) {
+                returnString += Character.toUpperCase(characters[i]);
+            } else {
+                returnString += Character.toLowerCase(characters[i]);
+            }
+        }
+        
+        return returnString;
+    }
+    
 }
