@@ -1,10 +1,6 @@
 package me.NinjaMandalorian.ImplodusPorts.listener;
 
-import java.util.Arrays;
-
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
@@ -14,8 +10,6 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 import me.NinjaMandalorian.ImplodusPorts.object.Port;
-import me.NinjaMandalorian.ImplodusPorts.ui.BaseButton;
-import me.NinjaMandalorian.ImplodusPorts.ui.BaseMenu;
 import me.NinjaMandalorian.ImplodusPorts.ui.PortMenu;
 
 public class PlayerListener implements Listener {

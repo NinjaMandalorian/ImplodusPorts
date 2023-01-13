@@ -22,6 +22,7 @@ import me.NinjaMandalorian.ImplodusPorts.Logger;
 
 public class DataManager {
     
+    @SuppressWarnings("unused")
     private static ImplodusPorts plugin;
     
     private static String dataFolder = "plugins" + File.separator + "ImplodusPorts" + File.separator + "data";

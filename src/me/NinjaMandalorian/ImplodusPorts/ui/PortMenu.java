@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -47,7 +46,6 @@ public class PortMenu {
         
         int portCount = 0;
         for (Port availablePort : PortHelper.orderPorts(port, port.getNearby())) {
-            Location l = availablePort.getSignLocation();
             Bukkit.getLogger().info(availablePort.getSize() + " " + port.distanceTo(availablePort));
             
             
