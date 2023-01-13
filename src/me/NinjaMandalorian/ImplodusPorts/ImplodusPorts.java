@@ -8,6 +8,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import me.NinjaMandalorian.ImplodusPorts.command.ImplodusPortsCommands;
 import me.NinjaMandalorian.ImplodusPorts.data.DataManager;
 import me.NinjaMandalorian.ImplodusPorts.data.PortDataManager;
+import me.NinjaMandalorian.ImplodusPorts.listener.SignListener;
 import me.NinjaMandalorian.ImplodusPorts.listener.InventoryListener;
 import me.NinjaMandalorian.ImplodusPorts.listener.PlayerListener;
 import me.NinjaMandalorian.ImplodusPorts.object.Port;
@@ -38,6 +39,7 @@ public class ImplodusPorts extends JavaPlugin {
         PluginManager PluginManager = getServer().getPluginManager();
         PluginManager.registerEvents(new InventoryListener(), instance);
         PluginManager.registerEvents(new PlayerListener(), instance);
+        PluginManager.registerEvents(new SignListener(), instance);
     }
     
     public void onDisable() {
