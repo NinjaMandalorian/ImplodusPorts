@@ -127,5 +127,13 @@ public class Port {
         if (!this.signLocation.getWorld().equals(port.getSignLocation().getWorld())) return 0.0;
         return (this.getSignLocation().distance(port.getSignLocation()));
     }
+
+    public static void portCreate(Player player, Port port) {
+        Bukkit.getLogger().info("4");
+        player.sendMessage("CREATED PORT");
+        Logger.log("Player " + player.getName() + " created port " + port.getId());
+        activePorts.put(port.getId(), port);
+        PortDataManager.savePort(port);
+    }
     
 }
