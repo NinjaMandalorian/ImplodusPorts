@@ -72,6 +72,7 @@ public class Port {
         ArrayList<Port> returnList = new ArrayList<Port>();
         
         for (Port port : activePorts.values()) {
+            if (port.equals(this)) continue;
             Bukkit.getLogger().info("Checking between " + this.id + " and " + port.getId());
             Bukkit.getLogger().info("" + this.distanceTo(port) + " " + (Integer) Settings.getSizeMap(size).get("distance"));
             Bukkit.getLogger().info(String.valueOf(this.distanceTo(port) < (Integer) Settings.getSizeMap(size).get("distance"))+ "\n");
