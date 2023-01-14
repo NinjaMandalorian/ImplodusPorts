@@ -25,14 +25,17 @@ public class PlayerListener implements Listener {
             if (!ChatColor.stripColor(sign.getLine(0)).equals("[Port]")) return;
             Port port = Port.getPort(block.getLocation());
             if (port == null) return;
-            e.setCancelled(true);
             
             Action action = e.getAction();
             if (action.equals(Action.RIGHT_CLICK_BLOCK)) {
+                e.setCancelled(true);
                 PortMenu.createPortMenu(player, port).open(player);
                 return;
             } else if (action.equals(Action.LEFT_CLICK_BLOCK)) {
-                // Work out if user can destroy block (Admin perm or port owner?)
+                if (!player.hasPermission("implodusports.admin.destroy")) {
+                    // Preserve sign text
+                    e.setCancelled(true);
+                }
                 return;
             }
         }
