@@ -59,6 +59,13 @@ public class PortDataManager {
         savePortData(data);
     }
     
+    public static void deletePort(Port port) {
+        HashMap<String, Port> data = loadPortData();
+        data.remove(port.getId());
+        
+        savePortData(data);
+    }
+    
     /**
      * Saves port data to file
      * @param data - Port data
