@@ -28,7 +28,7 @@ public class SignListener implements Listener {
             Port.portCreate(player, port);
             return;
         } else {
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&9[&6iPorts&9] &cYou do not have permission to do create a port."));
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&9[&6iPorts&9] &cYou do not have permission to create a port."));
             e.setCancelled(true);
             return;
         }
