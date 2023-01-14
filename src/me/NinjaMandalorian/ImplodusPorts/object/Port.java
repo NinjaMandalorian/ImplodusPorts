@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 
 import me.NinjaMandalorian.ImplodusPorts.Logger;
 import me.NinjaMandalorian.ImplodusPorts.data.PortDataManager;
+import me.NinjaMandalorian.ImplodusPorts.settings.Settings;
 
 /**
  * Port object, handles all interactions with individual ports.
@@ -70,10 +71,13 @@ public class Port {
     public List<Port> getNearby() {
         ArrayList<Port> returnList = new ArrayList<Port>();
         
-        for (int i = 0; i < 14; i++) {
-            returnList.add(new Port("debug"+i, new Location(this.signLocation.getWorld(), 5000 * Math.random(), 70, 5000 * Math.random() - 2500),
-                    new Location(this.signLocation.getWorld(), 0, 70, 20*i),
-                    1 + (int) Math.round(3 *Math.random()) ));
+        for (Port port : activePorts.values()) {
+            Bukkit.getLogger().info("Checking between " + this.id + " and " + port.getId());
+            Bukkit.getLogger().info("" + this.distanceTo(port) + " " + (Integer) Settings.getSizeMap(size).get("distance"));
+            Bukkit.getLogger().info(String.valueOf(this.distanceTo(port) < (Integer) Settings.getSizeMap(size).get("distance"))+ "\n");
+            if (this.distanceTo(port) < (Integer) Settings.getSizeMap(size).get("distance")) {
+                returnList.add(port);
+            }
         }
         
         return returnList;
@@ -116,9 +120,6 @@ public class Port {
     
     public static Port getPort(Location location) {
         for (Port port : activePorts.values()) {
-            Location signLoc = port.getSignLocation();                
-            Bukkit.getLogger().info(location.toString() + " " + signLoc.toString());
-            Bukkit.getLogger().info(location.getBlock().toString() + " " + signLoc.getBlock().toString());
             if (port.getSignLocation().getBlock().equals(location.getBlock())) {
                 return port;
             }
