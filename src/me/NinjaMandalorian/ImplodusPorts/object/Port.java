@@ -79,6 +79,11 @@ public class Port {
         return returnList;
     }
     
+    public Double distanceTo(Port port) {
+        if (!this.signLocation.getWorld().equals(port.getSignLocation().getWorld())) return 0.0;
+        return (this.getSignLocation().distance(port.getSignLocation()));
+    }
+    
     /**
      * Gets all the icons for each type of port.
      * @return List of Materials
@@ -125,17 +130,18 @@ public class Port {
         activePorts = PortDataManager.loadPortData();
     }
 
-    public Double distanceTo(Port port) {
-        if (!this.signLocation.getWorld().equals(port.getSignLocation().getWorld())) return 0.0;
-        return (this.getSignLocation().distance(port.getSignLocation()));
-    }
-
     public static void portCreate(Player player, Port port) {
-        Bukkit.getLogger().info("4");
         player.sendMessage("CREATED PORT");
-        Logger.log("Player " + player.getName() + " created port " + port.getId());
+        Logger.log("Player " + player != null ? player.getName() : "CONSOLE" + " created port " + port.getId());
         activePorts.put(port.getId(), port);
         PortDataManager.savePort(port);
+    }
+    
+    public static void portDestroy(Player player, Port port) {
+        player.sendMessage("DESTROYED PORT");
+        Logger.log("Player " + player != null ? player.getName() : "CONSOLE" + " destroyed port " + port.getId());
+        activePorts.remove(port.getId());
+        PortDataManager.deletePort(port);
     }
     
 }
