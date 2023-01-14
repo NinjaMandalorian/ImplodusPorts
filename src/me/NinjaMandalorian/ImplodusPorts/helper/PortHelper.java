@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -29,7 +30,10 @@ public class PortHelper {
         // Adds all megaports to sortedMap & removes from toSort
         for (Port port : toSort) {
             if (port.getSize() == 4) {
-                sortedMap.put(currentPort.distanceTo(port), port);
+                Double distance = currentPort.distanceTo(port);
+                while(sortedMap.containsKey(distance)) distance += 0.01;
+                Bukkit.getLogger().info(distance.toString());
+                sortedMap.put(distance, port);
             }
         }
         
@@ -40,7 +44,10 @@ public class PortHelper {
         // Re-uses sortedMap for rest of ports
         for (Port port : toSort) {
             if (port.getSize() != 4) {
-                sortedMap.put(currentPort.distanceTo(port), port);
+                Double distance = currentPort.distanceTo(port);
+                while(sortedMap.containsKey(distance)) distance += 0.01;
+                Bukkit.getLogger().info(distance.toString());
+                sortedMap.put(distance, port);
             }
         }
         // Adds rest and returns.
