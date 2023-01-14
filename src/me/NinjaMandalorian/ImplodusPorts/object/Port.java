@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -73,9 +72,6 @@ public class Port {
         
         for (Port port : activePorts.values()) {
             if (port.equals(this)) continue;
-            Bukkit.getLogger().info("Checking between " + this.id + " and " + port.getId());
-            Bukkit.getLogger().info("" + this.distanceTo(port) + " " + (Integer) Settings.getSizeMap(size).get("distance"));
-            Bukkit.getLogger().info(String.valueOf(this.distanceTo(port) < (Integer) Settings.getSizeMap(size).get("distance"))+ "\n");
             if (this.distanceTo(port) < (Integer) Settings.getSizeMap(size).get("distance")) {
                 returnList.add(port);
             }
