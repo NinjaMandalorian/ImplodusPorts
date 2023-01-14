@@ -46,8 +46,6 @@ public class PortMenu {
         
         int portCount = 0;
         for (Port availablePort : PortHelper.orderPorts(port, port.getNearby())) {
-            Bukkit.getLogger().info(availablePort.getSize() + " " + port.distanceTo(availablePort));
-            
             
             int slot = slotList.get(portCount);
             
