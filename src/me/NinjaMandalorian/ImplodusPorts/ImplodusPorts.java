@@ -25,13 +25,13 @@ import net.milkbowl.vault.economy.Economy;
 public class ImplodusPorts extends JavaPlugin {
     
     private static ImplodusPorts instance;
-    private static BukkitAudiences adventure;
+    private BukkitAudiences adventure;
     public static Economy econ;
     
     public void onEnable() {
         instance = this;
         
-        adventure = BukkitAudiences.create(this);
+        this.adventure = BukkitAudiences.create(instance);
         
         // Initialise parts of the plugin
         DataManager.init();
@@ -74,8 +74,8 @@ public class ImplodusPorts extends JavaPlugin {
         return instance;
     }
     
-    public static BukkitAudiences getAdventure() {
-        return adventure;
+    public BukkitAudiences getAdventure() {
+        return this.adventure;
     }
     
 }

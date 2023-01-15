@@ -52,5 +52,52 @@
 	    	<artifactId>adventure-platform-bukkit</artifactId>
     		<version>4.2.0</version>
  		</dependency>
-  </dependencies>  
+  </dependencies>
+  
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>3.4.1</version>
+        <configuration>
+          <!-- put your configurations here -->
+          <createDependencyReducedPom>false</createDependencyReducedPom>
+          
+          <artifactSet>
+          	<includes>
+          		<include>net.kyori</include>
+          	</includes>
+          </artifactSet>
+          
+          <filters>
+          	<filter>
+            	<artifact>*</artifact>
+                <excludes>
+                	<exclude>META-INF/**</exclude>
+                </excludes>
+           	</filter>
+          </filters>
+          
+          <relocations>
+          	<relocation>
+      			<pattern>net.kyori</pattern>
+                <shadedPattern>me.NinjaMandalorian.ImplodusPorts.dependencies.net.kyori</shadedPattern>
+			</relocation>
+          </relocations>
+          
+        </configuration>
+        
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+  
 </project>
