@@ -14,6 +14,7 @@ import me.NinjaMandalorian.ImplodusPorts.listener.InventoryListener;
 import me.NinjaMandalorian.ImplodusPorts.listener.PlayerListener;
 import me.NinjaMandalorian.ImplodusPorts.object.Port;
 import me.NinjaMandalorian.ImplodusPorts.settings.Settings;
+import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.milkbowl.vault.economy.Economy;
 
 /**
@@ -24,10 +25,13 @@ import net.milkbowl.vault.economy.Economy;
 public class ImplodusPorts extends JavaPlugin {
     
     private static ImplodusPorts instance;
+    private static BukkitAudiences adventure;
     public static Economy econ;
     
     public void onEnable() {
         instance = this;
+        
+        adventure = BukkitAudiences.create(this);
         
         // Initialise parts of the plugin
         DataManager.init();
@@ -46,6 +50,11 @@ public class ImplodusPorts extends JavaPlugin {
     
     public void onDisable() {
         Bukkit.getLogger().info("Disabling ImplodusPorts");
+        if(adventure != null) {
+            adventure.close();
+            adventure = null;
+        }
+        
         PortDataManager.savePortData(Port.getPorts());;
     }
     
@@ -63,6 +72,10 @@ public class ImplodusPorts extends JavaPlugin {
     
     public static ImplodusPorts getInstance() {
         return instance;
+    }
+    
+    public static BukkitAudiences getAdventure() {
+        return adventure;
     }
     
 }
