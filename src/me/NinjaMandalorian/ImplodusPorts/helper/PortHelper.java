@@ -57,6 +57,7 @@ public class PortHelper {
     }
 
     public static Port portFromSign(Player player, Block block, String[] lines) {
+        lines[1] = lines[1].replace(':', ' ');
         String id = lines[1].toLowerCase().strip().replace(' ', '_');
         String displayName = StringHelper.capitalize(lines[1].strip().replace('_', ' '));
         Location signLocation = block.getLocation();
