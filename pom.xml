@@ -21,7 +21,6 @@
         </resource>
         <resource>
 	        <directory>src</directory>
-            
         </resource>
     </resources>
     <plugins>
