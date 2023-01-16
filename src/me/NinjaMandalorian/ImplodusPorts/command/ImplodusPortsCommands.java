@@ -10,6 +10,8 @@ import org.bukkit.entity.Player;
 import me.NinjaMandalorian.ImplodusPorts.ImplodusPorts;
 import me.NinjaMandalorian.ImplodusPorts.helper.StringHelper;
 import me.NinjaMandalorian.ImplodusPorts.object.Port;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.event.HoverEvent;
 
 public class ImplodusPortsCommands implements CommandExecutor, TabCompleter {
 
@@ -37,6 +39,7 @@ public class ImplodusPortsCommands implements CommandExecutor, TabCompleter {
                 travelCommand(player, StringHelper.remFirst(args));
                 return true;
             case "debug":
+                ImplodusPorts.getInstance().getAdventure().all().sendMessage(Component.text("TEST-COMPONENT").hoverEvent(HoverEvent.showText(Component.text("HOVER"))));
                 Port.initPorts();
                 return true;
             default:
