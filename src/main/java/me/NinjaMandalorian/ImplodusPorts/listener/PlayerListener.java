@@ -44,6 +44,7 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent e) {
+        @SuppressWarnings("unused")
         Player player = e.getPlayer();
     }
 }

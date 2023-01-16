@@ -1,10 +1,7 @@
 package me.NinjaMandalorian.ImplodusPorts.handler;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
-
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 
@@ -40,6 +37,7 @@ public class TravelHandler {
         ArrayList<Port> playerJourney = journeys.get(player);
         if (playerJourney == null) return;
         
+        @SuppressWarnings("unused")
         Port currentPort = playerJourney.get(0);
         player.teleport(playerJourney.get(1).getTeleportLocation(), TeleportCause.PLUGIN);
         
