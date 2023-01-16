@@ -1,6 +1,9 @@
 package me.NinjaMandalorian.ImplodusPorts.command;
 
+import java.util.Arrays;
 import java.util.List;
+
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -8,6 +11,7 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
 import me.NinjaMandalorian.ImplodusPorts.ImplodusPorts;
+import me.NinjaMandalorian.ImplodusPorts.handler.TravelHandler;
 import me.NinjaMandalorian.ImplodusPorts.helper.StringHelper;
 import me.NinjaMandalorian.ImplodusPorts.object.Port;
 import net.kyori.adventure.text.Component;
@@ -50,7 +54,14 @@ public class ImplodusPortsCommands implements CommandExecutor, TabCompleter {
     }
     
     private void travelCommand(Player player, String[] args) {
+        Bukkit.getLogger().info("Travel recieved with destinations: " + args.toString());
         
+        String[] extraParams = Arrays.copyOfRange(args, 2, args.length-1);
+        Port origin = Port.getPort(args[0]); Port destination = Port.getPort(args[1]);
+        if (origin != null && destination != null) {
+            TravelHandler.startJourney(player, origin, destination, args);
+        }
+        return;
     }
 
 }
