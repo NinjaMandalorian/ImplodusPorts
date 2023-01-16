@@ -15,6 +15,7 @@ import me.NinjaMandalorian.ImplodusPorts.settings.Settings;
 import me.NinjaMandalorian.ImplodusPorts.ui.BaseMenu.Builder;
 import me.NinjaMandalorian.ImplodusPorts.ui.tasks.CommandTask;
 import me.NinjaMandalorian.ImplodusPorts.ui.tasks.InventoryTask;
+import me.NinjaMandalorian.ImplodusPorts.ui.tasks.JourneyTask;
 import net.md_5.bungee.api.ChatColor;
 
 public class PortMenu {
@@ -104,7 +105,7 @@ public class PortMenu {
                     );
             
             portButton = portButton.lore(lore);
-            portButton = portButton.task(new CommandTask("/implodusports:iports travel " + currentPort.getId() + "->" + port.getId() ));
+            portButton = portButton.task(new JourneyTask(currentPort, port));
         }
         
         return portButton;

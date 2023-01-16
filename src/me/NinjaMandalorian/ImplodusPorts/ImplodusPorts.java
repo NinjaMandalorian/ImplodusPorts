@@ -25,13 +25,14 @@ import net.milkbowl.vault.economy.Economy;
 public class ImplodusPorts extends JavaPlugin {
     
     private static ImplodusPorts instance;
-    private BukkitAudiences adventure;
     public static Economy econ;
+    
+    private BukkitAudiences adventure;
     
     public void onEnable() {
         instance = this;
         
-        this.adventure = BukkitAudiences.create(instance);
+        adventure = BukkitAudiences.create(instance);
         
         // Initialise parts of the plugin
         DataManager.init();
@@ -50,11 +51,6 @@ public class ImplodusPorts extends JavaPlugin {
     
     public void onDisable() {
         Bukkit.getLogger().info("Disabling ImplodusPorts");
-        if(adventure != null) {
-            adventure.close();
-            adventure = null;
-        }
-        
         PortDataManager.savePortData(Port.getPorts());;
     }
     
@@ -73,9 +69,9 @@ public class ImplodusPorts extends JavaPlugin {
     public static ImplodusPorts getInstance() {
         return instance;
     }
-    
+
     public BukkitAudiences getAdventure() {
-        return this.adventure;
+        return adventure;
     }
     
 }
