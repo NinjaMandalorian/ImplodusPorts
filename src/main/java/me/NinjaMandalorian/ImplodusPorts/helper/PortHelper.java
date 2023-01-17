@@ -61,10 +61,23 @@ public class PortHelper {
         String id = lines[1].toLowerCase().strip().replace(' ', '_');
         String displayName = StringHelper.capitalize(lines[1].strip().replace('_', ' '));
         Location signLocation = block.getLocation();
-        Location teleportLocation = player.getLocation();
+        Location teleportLocation = squareLocation(player.getLocation());
         
         Port port = new Port(id, signLocation, teleportLocation, 1, displayName);
         return port;
     }
     
+    
+    public static Location squareLocation(Location location) {
+        return new Location(location.getWorld(), 
+                midway(location.getX()), 
+                midway(location.getY()), 
+                midway(location.getZ()), 
+                Math.round(location.getYaw()/45)*45, 
+                0);
+    }
+    
+    private static Double midway(Double number) {
+        return Math.floor(number) + 0.5;
+    }
 }
