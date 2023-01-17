@@ -72,7 +72,7 @@ public class Port {
         
         for (Port port : activePorts.values()) {
             if (port.equals(this)) continue;
-            if (this.distanceTo(port) < (Integer) Settings.getSizeMap(size).get("distance")) {
+            if (this.distanceTo(port) < (Double) Settings.getSizeMap(size).get("distance")) {
                 returnList.add(port);
             }
         }
