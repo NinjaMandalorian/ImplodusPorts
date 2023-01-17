@@ -1,0 +1,24 @@
+# Plugin version, do not edit.
+version: 0.0.1
+
+basecost: 20.00
+
+sizes:
+   small:
+      distance: 500.00
+      # Cost per 100 blocks
+      cost: 50.00
+      # Blocks per second
+      speed: 25.00
+   medium:
+      distance: 1000.00
+      cost: 40.00
+      speed: 30.00
+   large:
+      distance: 2000.00
+      cost: 30.00
+      speed: 35.00
+   mega:
+      distance: 5000.00
+      cost: 15.00
+      speed: 40.00

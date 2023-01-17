@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 import me.NinjaMandalorian.ImplodusPorts.Logger;
@@ -72,7 +73,7 @@ public class Port {
         
         for (Port port : activePorts.values()) {
             if (port.equals(this)) continue;
-            if (this.distanceTo(port) < (Integer) Settings.getSizeMap(size).get("distance")) {
+            if (this.distanceTo(port) < (Double) Settings.getSizeMap(size).get("distance")) {
                 returnList.add(port);
             }
         }
@@ -83,6 +84,11 @@ public class Port {
     public Double distanceTo(Port port) {
         if (!this.signLocation.getWorld().equals(port.getSignLocation().getWorld())) return 0.0;
         return (this.getSignLocation().distance(port.getSignLocation()));
+    }
+    
+    public void changeSize(int newSize) {
+        this.size = newSize;
+        PortDataManager.savePort(this);
     }
     
     /**
@@ -116,8 +122,12 @@ public class Port {
     }
     
     public static Port getPort(Location location) {
+        return getPort(location.getBlock());
+    }
+    
+    public static Port getPort(Block block) {
         for (Port port : activePorts.values()) {
-            if (port.getSignLocation().getBlock().equals(location.getBlock())) {
+            if (port.getSignLocation().getBlock().equals(block)) {
                 return port;
             }
         }
