@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import me.NinjaMandalorian.ImplodusPorts.ImplodusPorts;
+import me.NinjaMandalorian.ImplodusPorts.handler.TravelHandler;
 import me.NinjaMandalorian.ImplodusPorts.helper.PortHelper;
 import me.NinjaMandalorian.ImplodusPorts.object.Port;
 import me.NinjaMandalorian.ImplodusPorts.settings.Settings;
@@ -98,8 +99,8 @@ public class PortMenu {
             
             List<String> lore = Arrays.asList(
                     ChatColor.GOLD + "Size: " + portSizeString(port),
-                    ChatColor.GOLD + "Travel Time: ",
-                    ChatColor.GOLD + "Cost: " + ImplodusPorts.econ.format(Double.valueOf((Integer) boatMap.get("cost"))),
+                    ChatColor.GOLD + "Travel Time: "+TravelHandler.getTravelTime(currentPort, port),
+                    ChatColor.GOLD + "Cost: " + ImplodusPorts.econ.format( (Double) boatMap.get("cost")),
                     ChatColor.GREEN + "Click to Travel"
                     );
             
