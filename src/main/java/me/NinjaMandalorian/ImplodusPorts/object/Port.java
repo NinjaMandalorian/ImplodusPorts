@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 import me.NinjaMandalorian.ImplodusPorts.Logger;
@@ -121,8 +122,12 @@ public class Port {
     }
     
     public static Port getPort(Location location) {
+        return getPort(location.getBlock());
+    }
+    
+    public static Port getPort(Block block) {
         for (Port port : activePorts.values()) {
-            if (port.getSignLocation().getBlock().equals(location.getBlock())) {
+            if (port.getSignLocation().getBlock().equals(block)) {
                 return port;
             }
         }
