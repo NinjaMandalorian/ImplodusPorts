@@ -85,6 +85,11 @@ public class Port {
         return (this.getSignLocation().distance(port.getSignLocation()));
     }
     
+    public void changeSize(int newSize) {
+        this.size = newSize;
+        PortDataManager.savePort(this);
+    }
+    
     /**
      * Gets all the icons for each type of port.
      * @return List of Materials
