@@ -25,7 +25,7 @@ public class MessageHandler {
                 .hoverEvent(HoverEvent.showText(Component.text("Click to begin travelling...")))
                 .clickEvent(ClickEvent.runCommand("/implodusports:iports next"));
         
-        audience.sendActionBar(component);
+        audience.sendMessage(component);
     }
     
 }
