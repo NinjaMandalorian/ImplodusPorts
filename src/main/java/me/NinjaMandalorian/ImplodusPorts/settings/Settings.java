@@ -45,6 +45,10 @@ public class Settings {
         return null;
     }
     
+    public static Double getBaseCost() {
+        return config.getDouble("basecost");
+    }
+    
     /**
      * Reloads the config with the internal config.yml
      */
