@@ -21,7 +21,7 @@ public class MessageHandler {
         BukkitAudiences adventure = ImplodusPorts.getInstance().getAdventure();
         Audience audience = adventure.player(player);
         
-        Component component = Component.text(ChatColor.translateAlternateColorCodes('&', "&f[&aNext Port]&f"))
+        Component component = Component.text(ChatColor.translateAlternateColorCodes('&', "&f[&aNext Port&f]"))
                 .hoverEvent(HoverEvent.showText(Component.text("Click to begin travelling...")))
                 .clickEvent(ClickEvent.runCommand("/implodusports:iports next"));
         
