@@ -15,4 +15,9 @@ public class Logger {
     public static void quietLog(String string) {
         // Insert .txt logging system
     }
+
+    public static void debug(String string) {
+        Bukkit.getLogger().info("[DEBUG] " + string);
+        quietLog("[DEBUG-MODE] " + string);
+    }
 }
