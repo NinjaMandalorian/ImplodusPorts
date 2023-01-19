@@ -73,9 +73,20 @@ public class Port {
         
         for (Port port : activePorts.values()) {
             if (port.equals(this)) continue;
-            if (this.distanceTo(port) < (Double) Settings.getSizeMap(size).get("distance")) {
-                returnList.add(port);
+            Double distance = this.distanceTo(port);
+            if (distance > (Double) Settings.getSizeMap(size).get("distance")) continue;
+            if (distance > (Double) Settings.getSizeMap(port.getSize()).get("distance")) continue;
+            returnList.add(port);
+        }
+        
+        if (returnList.size() == 0) {
+            Port closestPort = null;
+            for (Port port : activePorts.values()) {
+                if (closestPort == null || this.distanceTo(closestPort) > this.distanceTo(port)) {
+                    closestPort = port;
+                }
             }
+            returnList.add(closestPort);
         }
         
         return returnList;
