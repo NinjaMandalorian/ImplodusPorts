@@ -87,7 +87,7 @@ public class Port {
     }
     
     public void changeSize(int newSize) {
-        this.size = newSize;
+        this.size = Math.min(4, Math.max(1, newSize));
         PortDataManager.savePort(this);
     }
     
@@ -140,7 +140,7 @@ public class Port {
 
     public static void portCreate(Player player, Port port) {
         player.sendMessage("CREATED PORT");
-        Logger.log("Player " + player != null ? player.getName() : "CONSOLE" + " created port " + port.getId());
+        Logger.log( ("Player " + player != null ? player.getName() : "CONSOLE") + " created port " + port.getId());
         activePorts.put(port.getId(), port);
         PortDataManager.savePort(port);
     }
