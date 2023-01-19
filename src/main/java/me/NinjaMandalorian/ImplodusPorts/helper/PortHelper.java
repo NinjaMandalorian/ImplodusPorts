@@ -9,7 +9,10 @@ import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
+import me.NinjaMandalorian.ImplodusPorts.Logger;
 import me.NinjaMandalorian.ImplodusPorts.object.Port;
+import me.NinjaMandalorian.ImplodusPorts.ui.PortMenu;
+import net.md_5.bungee.api.ChatColor;
 
 public class PortHelper {
     
@@ -67,6 +70,18 @@ public class PortHelper {
         return port;
     }
     
+    public static List<String> formatSign(Port port) {
+        Logger.debug("FORMAT SIGN FOR : " + port.getDisplayName());
+        
+        ArrayList<String> returnList = new ArrayList<String>();
+        
+        returnList.add(0, ChatColor.translateAlternateColorCodes('&', "&5&l[Port]"));
+        returnList.add(1, ChatColor.GOLD + port.getDisplayName());
+        returnList.add(2, PortMenu.portSizeString(port).substring(0, 2) + ChatColor.ITALIC + PortMenu.portSizeString(port).substring(2));
+        returnList.add(3, "");
+        
+        return returnList;
+    }
     
     public static Location squareLocation(Location location) {
         return new Location(location.getWorld(), 
