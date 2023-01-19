@@ -13,7 +13,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-import org.bukkit.Bukkit;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 
@@ -90,7 +89,7 @@ public class DataManager {
         try {
             inputStream = new FileInputStream(file);
         } catch (FileNotFoundException e) {
-            Bukkit.getLogger().warning("[TownyProduction] Encountered error when creating FileInputStream for " + filePath);
+            Logger.warn("[ImplodusPorts] Encountered error when creating FileInputStream for " + filePath);
             return null;
         }
         Yaml yaml = new Yaml();
