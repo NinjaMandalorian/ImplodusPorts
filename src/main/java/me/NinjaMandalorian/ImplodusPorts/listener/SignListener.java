@@ -1,11 +1,14 @@
 package me.NinjaMandalorian.ImplodusPorts.listener;
 
+import java.util.List;
+
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
 
+import me.NinjaMandalorian.ImplodusPorts.Logger;
 import me.NinjaMandalorian.ImplodusPorts.helper.PortHelper;
 import me.NinjaMandalorian.ImplodusPorts.object.Port;
 import net.md_5.bungee.api.ChatColor;
@@ -18,6 +21,7 @@ public class SignListener implements Listener {
      */
     @EventHandler
     public void onSignChange(SignChangeEvent e) {
+        Logger.debug("SignChangeEvent");
         Player player = e.getPlayer();
         Block block = e.getBlock();
         
@@ -26,6 +30,11 @@ public class SignListener implements Listener {
         if (player.hasPermission("implodusports.admin.create")) {
             Port port = PortHelper.portFromSign(player, block, e.getLines());
             Port.portCreate(player, port);
+            List<String> formattedSign = PortHelper.formatSign(port);
+            for (int i = 0; i < 4; i++) {
+                e.setLine(i, formattedSign.get(i));
+            }
+            
             return;
         } else {
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&9[&6iPorts&9] &cYou do not have permission to create a port."));
