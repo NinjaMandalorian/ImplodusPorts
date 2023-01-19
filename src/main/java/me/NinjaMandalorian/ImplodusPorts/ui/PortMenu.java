@@ -1,5 +1,6 @@
 package me.NinjaMandalorian.ImplodusPorts.ui;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -94,13 +95,10 @@ public class PortMenu {
             portButton = portButton.itemStack(new ItemStack(Port.getIcon(port.getSize())));
             portButton = portButton.name(port.getDisplayName());
             
-            int boatSize = Math.min(currentPort.getSize(), port.getSize());
-            Map<String, Object> boatMap = Settings.getSizeMap(boatSize);
-            
             List<String> lore = Arrays.asList(
                     ChatColor.GOLD + "Size: " + portSizeString(port),
                     ChatColor.GOLD + "Travel Time: "+TravelHandler.getTravelTime(currentPort, port),
-                    ChatColor.GOLD + "Cost: " + ImplodusPorts.econ.format( (Double) boatMap.get("cost")),
+                    ChatColor.GOLD + "Cost: " + ImplodusPorts.econ.format(TravelHandler.getJourneyCost(Arrays.asList(currentPort, port))),
                     ChatColor.GREEN + "Click to Travel"
                     );
             
