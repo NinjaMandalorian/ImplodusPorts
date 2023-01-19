@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
+import org.bukkit.block.Sign;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -13,6 +14,7 @@ import org.bukkit.entity.Player;
 
 import me.NinjaMandalorian.ImplodusPorts.ImplodusPorts;
 import me.NinjaMandalorian.ImplodusPorts.handler.TravelHandler;
+import me.NinjaMandalorian.ImplodusPorts.helper.PortHelper;
 import me.NinjaMandalorian.ImplodusPorts.helper.StringHelper;
 import me.NinjaMandalorian.ImplodusPorts.object.Port;
 
@@ -80,6 +82,15 @@ public class ImplodusPortsCommands implements CommandExecutor, TabCompleter {
         Port port = Port.getPort(targetBlock);
         if (port == null) return;
         port.changeSize(newSize);
+        
+        Sign sign = (Sign) targetBlock.getState();
+        List<String> signList = PortHelper.formatSign(port);
+        for (int i = 0; i < 4; i++) {
+            sign.setLine(i, signList.get(i));
+        }
+        sign.update(true);
+        
+        return;
     }
     
 }
