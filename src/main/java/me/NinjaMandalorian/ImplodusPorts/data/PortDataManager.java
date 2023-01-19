@@ -30,7 +30,6 @@ public class PortDataManager {
         String[] portsData = rawData.split("\n");
         
         for (String portData : portsData) {
-            Bukkit.getLogger().info("Converting to port: " + portData);
             String[] splitData = splitWithQuotes(portData); 
             if (splitData.length < 5 || splitData[0].equalsIgnoreCase("id")) continue;
             
@@ -79,7 +78,6 @@ public class PortDataManager {
             rawData += "\n";
         }
         
-        Bukkit.getLogger().info("Saving: " + rawData);
         DataManager.saveRawData(filePath, rawData);
     }
 
