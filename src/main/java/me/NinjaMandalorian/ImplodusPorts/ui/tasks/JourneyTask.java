@@ -20,6 +20,7 @@ public class JourneyTask implements BaseTask {
     @Override
     public void run(InventoryClickEvent event) {
         TravelHandler.startJourney((Player) event.getWhoClicked(), ports.get(0), ports.get(1));
+        event.getWhoClicked().closeInventory();
     }
 
 }
