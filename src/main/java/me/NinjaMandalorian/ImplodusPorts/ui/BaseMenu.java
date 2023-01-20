@@ -1,15 +1,20 @@
 package me.NinjaMandalorian.ImplodusPorts.ui;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map.Entry;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 
 import me.NinjaMandalorian.ImplodusPorts.ui.tasks.BaseTask;
+import me.NinjaMandalorian.ImplodusPorts.ui.tasks.PageTask;
 import net.md_5.bungee.api.ChatColor;
 
 public class BaseMenu implements InventoryHolder {
@@ -51,6 +56,17 @@ public class BaseMenu implements InventoryHolder {
         return this.menuButtons.get(slotNum);
     }
     
+    
+    // PAGED MENU FUNCTIONS //
+    
+    public void changePage(Player player, int direction) {
+        if (pages == null) return;
+        currentPage += direction;
+        currentPage = Math.max(currentPage, 0);
+        currentPage = Math.min(currentPage, pages.size() -1);
+        
+        loadPage(currentPage);
+    }
     public static Builder createBuilder() {
         return new Builder();
     }
