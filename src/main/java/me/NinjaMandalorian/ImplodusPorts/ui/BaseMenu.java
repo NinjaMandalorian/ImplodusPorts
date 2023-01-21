@@ -271,10 +271,10 @@ public class BaseMenu implements InventoryHolder {
             inventory.setItem(buttonEntry.getKey(), buttonEntry.getValue().getItemStack());
         }
         
-        this.pages = pagedBuilder.pageButtons;
-        this.loadPage(0);
-        
         this.menuButtons = pagedBuilder.menuButtons;
         this.openMessage = pagedBuilder.openMsg;
+        
+        this.pages = pagedBuilder.pageButtons;
+        this.loadPage(0);
     }
 }
