@@ -1,5 +1,8 @@
 package me.NinjaMandalorian.ImplodusPorts.listener;
 
+import java.util.ArrayList;
+
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
@@ -10,10 +13,15 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 
+import me.NinjaMandalorian.ImplodusPorts.ImplodusPorts;
+import me.NinjaMandalorian.ImplodusPorts.handler.TravelHandler;
 import me.NinjaMandalorian.ImplodusPorts.object.Port;
+import me.NinjaMandalorian.ImplodusPorts.settings.Settings;
 import me.NinjaMandalorian.ImplodusPorts.ui.PortMenu;
 
 public class PlayerListener implements Listener {
+    
+    ArrayList<Player> warnedPlayers = new ArrayList<Player>();
     
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent e) {
@@ -44,7 +52,22 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent e) {
-        @SuppressWarnings("unused")
         Player player = e.getPlayer();
+        Port port = TravelHandler.getCurrentPort(player);
+        if (port == null) return;
+        Double distance = port.getSignLocation().distance(e.getTo());
+        Double maxDistance = Settings.getWalkRadius(port.getSize());
+        
+        if (distance < maxDistance * .8) return;
+                
+        if (distance > maxDistance) {
+            TravelHandler.cancelJourney(player);
+        } else {
+            if (!warnedPlayers.contains(player)) {
+                player.sendMessage(ChatColor.RED + "You are nearing the edge of the port. Leaving will cancel your journey.");
+                warnedPlayers.add(player);
+                Bukkit.getScheduler().scheduleSyncDelayedTask(ImplodusPorts.getInstance(), () -> {warnedPlayers.remove(player);} ,100L);
+            }
+        }
     }
 }

@@ -37,11 +37,15 @@ public class TravelHandler {
     public static void startJourney(Player player, Port origin, Port destination, String...args) {
         Logger.debug(player.getName() + " RUN PORT;"+origin.getId());
         ArrayList<Port> playerJourney = findPath(player, origin, destination);
-        
-        
-        
+           
         journeys.put(player, playerJourney);
         scheduleNext(player);
+    }
+    
+    public static void cancelJourney(Player player) {
+        journeys.remove(player);
+        enroutePlayers.remove(player);
+        player.sendMessage(ChatColor.RED + "Journey Cancelled.");
     }
     
     public static void scheduleNext(Player player) {
@@ -131,6 +135,11 @@ public class TravelHandler {
     
     public static boolean canTravelTo(Port port, Player player) {
         return true;
+    }
+
+    public static Port getCurrentPort(Player player) {
+        if (journeys.get(player) == null) return null;
+        return journeys.get(player).get(0);
     }
 
 }
