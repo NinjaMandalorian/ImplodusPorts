@@ -234,14 +234,14 @@ public class BaseMenu implements InventoryHolder {
          * @return Builder
          */
         public PagedBuilder setContents(ArrayList<BaseButton> buttonList) {
-            int pageNum = Math.floorDiv(buttonList.size(), 35) + 1;
+            int pageNum = Math.floorDiv(buttonList.size(), 28) + 1;
             
             for (int i = 0; i < pageNum; i++) {
                 ArrayList<BaseButton> page = new ArrayList<BaseButton>();
                 
-                for (int j = 0; j < 35; j++) {
-                    if (35 * i + j >= buttonList.size()) break; 
-                    page.add(buttonList.get(35 * i + j));
+                for (int j = 0; j < 28; j++) {
+                    if (28 * i + j >= buttonList.size()) break; 
+                    page.add(buttonList.get(28 * i + j));
                 }
                 pageButtons.add(page);
             }
