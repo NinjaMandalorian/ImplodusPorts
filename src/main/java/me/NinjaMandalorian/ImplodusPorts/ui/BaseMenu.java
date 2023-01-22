@@ -250,8 +250,8 @@ public class BaseMenu implements InventoryHolder {
         }
         
         public PagedBuilder makePageButtons() {
-            menuButtons.put(48, BaseButton.create(Material.GREEN_DYE).name("&Previous Page").task(new PageTask(-1)));
-            menuButtons.put(50, BaseButton.create(Material.GREEN_DYE).name("&Next Page").task(new PageTask(1)));
+            menuButtons.put(48, BaseButton.create(Material.GREEN_DYE).name("&ePrevious Page").task(new PageTask(-1)));
+            menuButtons.put(50, BaseButton.create(Material.GREEN_DYE).name("&eNext Page").task(new PageTask(1)));
             return this;
         }
         
