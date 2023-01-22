@@ -10,15 +10,19 @@ sizes:
       cost: 50.00
       # Blocks per second
       speed: 25.00
+      walk_radius: 50.00
    medium:
       distance: 1000.00
       cost: 40.00
       speed: 30.00
+      walk_radius: 50.00
    large:
       distance: 2000.00
       cost: 30.00
       speed: 35.00
+      walk_radius: 50.00
    mega:
       distance: 5000.00
       cost: 15.00
       speed: 40.00
+      walk_radius: 50.00
