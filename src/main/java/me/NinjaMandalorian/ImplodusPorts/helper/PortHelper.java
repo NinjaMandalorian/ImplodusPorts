@@ -37,7 +37,6 @@ public class PortHelper {
             if (port.getSize() == 4) {
                 Double distance = currentPort.distanceTo(port);
                 while(sortedMap.containsKey(distance)) distance += 0.01;
-                Bukkit.getLogger().info(distance.toString());
                 sortedMap.put(distance, port);
             }
         }
@@ -51,7 +50,6 @@ public class PortHelper {
             if (port.getSize() != 4) {
                 Double distance = currentPort.distanceTo(port);
                 while(sortedMap.containsKey(distance)) distance += 0.01;
-                Bukkit.getLogger().info(distance.toString());
                 sortedMap.put(distance, port);
             }
         }
