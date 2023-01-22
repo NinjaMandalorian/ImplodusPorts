@@ -13,6 +13,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 
+import me.NinjaMandalorian.ImplodusPorts.Logger;
 import me.NinjaMandalorian.ImplodusPorts.ui.tasks.BaseTask;
 import me.NinjaMandalorian.ImplodusPorts.ui.tasks.PageTask;
 import net.md_5.bungee.api.ChatColor;
@@ -71,6 +72,7 @@ public class BaseMenu implements InventoryHolder {
     }
     
     private void loadPage(int pageNum) {
+        Logger.debug("LOADING PAGE " + pageNum);
         List<Integer> slotList = Arrays.asList(
                 10,11,12,13,14,15,16,
                 19,20,21,22,23,24,25,
@@ -78,9 +80,14 @@ public class BaseMenu implements InventoryHolder {
                 37,38,39,40,41,42,43);
         
         ArrayList<BaseButton> pageButtons = pages.get(pageNum);
-        for (int i = 0; i < Math.min(pageButtons.size(), 35); i++) {
-            inventory.setItem(slotList.get(i), pageButtons.get(i).getItemStack());
-            menuButtons.put(slotList.get(i), pageButtons.get(i));
+        for (int i = 0; i < 28; i++) {
+            if (i < pageButtons.size()) {
+                inventory.setItem(slotList.get(i), pageButtons.get(i).getItemStack());
+                menuButtons.put(slotList.get(i), pageButtons.get(i));
+            } else {
+                inventory.setItem(slotList.get(i), null);
+                menuButtons.remove(slotList.get(i));
+            }
         }
     }
     
