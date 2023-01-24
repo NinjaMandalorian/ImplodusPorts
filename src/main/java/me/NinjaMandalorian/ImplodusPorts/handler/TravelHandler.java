@@ -10,6 +10,7 @@ import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 
 import me.NinjaMandalorian.ImplodusPorts.ImplodusPorts;
 import me.NinjaMandalorian.ImplodusPorts.Logger;
+import me.NinjaMandalorian.ImplodusPorts.helper.PortHelper;
 import me.NinjaMandalorian.ImplodusPorts.object.Port;
 import me.NinjaMandalorian.ImplodusPorts.settings.Settings;
 import net.md_5.bungee.api.ChatColor;
@@ -34,6 +35,13 @@ public class TravelHandler {
     private static HashMap<Player, ArrayList<Port>> journeys = new HashMap<Player, ArrayList<Port>>();
     private static ArrayList<Player> enroutePlayers = new ArrayList<Player>();
     
+    /**
+     * Starts a port journey for a player.
+     * @param player - Player doing journey
+     * @param origin - Start port
+     * @param destination - Destination port
+     * @param args - Extra arguments
+     */
     public static void startJourney(Player player, Port origin, Port destination, String...args) {
         Logger.debug(player.getName() + " RUN PORT;"+origin.getId());
         ArrayList<Port> playerJourney = findPath(player, origin, destination);
@@ -42,11 +50,21 @@ public class TravelHandler {
         scheduleNext(player);
     }
     
+    
+    /**
+     * Cancels port journey for a player.
+     * @param player - Player to cancel journey of.
+     */
     public static void cancelJourney(Player player) {
         journeys.remove(player);
         enroutePlayers.remove(player);
         player.sendMessage(ChatColor.RED + "Journey Cancelled.");
     }
+    
+    /**
+     * Schedules next port travel.
+     * @param player - Player to schedule
+     */
     
     public static void scheduleNext(Player player) {
         if (enroutePlayers.contains(player)) return;
@@ -58,6 +76,11 @@ public class TravelHandler {
         player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&aYou will be teleported in &d" + time/20 + "&a seconds."));
     }
     
+    
+    /**
+     * Runs next port.
+     * @param player - Player to run next port.
+     */
     private static void next(Player player) {
         ArrayList<Port> playerJourney = journeys.get(player);
         if (playerJourney == null) return;
@@ -78,6 +101,15 @@ public class TravelHandler {
     }
     
     private static ArrayList<Port> findPath(Player player, Port origin, Port destination) {
+    
+    /**
+     * Finds path between two ports for a player.
+     * @param player - Player to find path for.
+     * @param origin - Start port.
+     * @param destination - End port.
+     * @return List of ports to go through.
+     */
+    public static ArrayList<Port> findPath(Player player, Port origin, Port destination) {
         ArrayList<Port> returnList = new ArrayList<Port>();
         
         returnList.add(origin);
@@ -88,13 +120,34 @@ public class TravelHandler {
     private static Long getJourneyWait(Player player) {
         ArrayList<Port> playerJourney = journeys.get(player);
         
+    /**
+     * Gets the journey wait (in ticks) for a player.
+     * @param player - Player to check for
+     * @return Wait in ticks
+     */
+    
+    private static Long getJourneyWait(Player player) {
+        return getJourneyWait(journeys.get(player));
+    }
+    
+    /**
+     * Gets the journey wait (in ticks) for a port list.
+     * @param journey - Port list
+     * @return Wait in ticks
+     */
+    public static Long getJourneyWait(ArrayList<Port> journey) {
         Long cumulativeTime = 0L;
-        for (int i = 1; i < playerJourney.size(); i++) {
-            cumulativeTime += getWait(playerJourney.get(i-1), playerJourney.get(i));
+        for (int i = 1; i < journey.size(); i++) {
+            cumulativeTime += getWait(journey.get(i-1), journey.get(i));
         }
         return cumulativeTime;
     }
     
+    /**
+     * Gets the cost for a player's journey
+     * @param playerJourney - Journey list
+     * @return Double of cost
+     */
     public static double getJourneyCost(List<Port> playerJourney) {
         Double totalCost = 0.0;
         for (int i = 1; i < playerJourney.size(); i++) {
@@ -104,9 +157,22 @@ public class TravelHandler {
         return totalCost;
     }
     
+    /**
+     * Gets journey cost of player
+     * @param player - Journey player
+     * @return Double of cost
+     */
+    
     public static Double getJourneyCost(Player player) {
         return getJourneyCost(journeys.get(player));
     }
+    
+    /**
+     * Gets the wait for travel between two ports.
+     * @param origin - Start port
+     * @param destination - End port
+     * @return Long of time (ticks)
+     */
     
     private static Long getWait(Port origin, Port destination) {
         Double distance = origin.distanceTo(destination);
@@ -119,7 +185,13 @@ public class TravelHandler {
         return waitTime;
     }
     
-    public static Double getTravelCost(Port origin, Port destination) {
+    /**
+     * Gets travel cost between two ports
+     * @param origin - Start port
+     * @param destination - Emd port
+     * @return Double of cost
+     */
+    private static Double getTravelCost(Port origin, Port destination) {
         int size = Math.min(origin.getSize(), destination.getSize());
         Double cost = Settings.getBaseCost();
         
@@ -129,14 +201,21 @@ public class TravelHandler {
         return cost;
     }
     
-    public static long getTravelTime(Port origin, Port destination) {
-        return getWait(origin, destination)/20L;
-    }
-    
+    /**
+     * Gets if player can travel to port
+     * @param port - Port to travel to
+     * @param player - Player travelling
+     * @return Boolean of if available
+     */
     public static boolean canTravelTo(Port port, Player player) {
         return true;
     }
 
+    /**
+     * Gets a player's current port
+     * @param player - Player to check
+     * @return Port of player
+     */
     public static Port getCurrentPort(Player player) {
         if (journeys.get(player) == null) return null;
         return journeys.get(player).get(0);
