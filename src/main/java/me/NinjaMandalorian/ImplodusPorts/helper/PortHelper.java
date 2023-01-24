@@ -6,10 +6,12 @@ import java.util.TreeMap;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 import me.NinjaMandalorian.ImplodusPorts.Logger;
+import me.NinjaMandalorian.ImplodusPorts.handler.TravelHandler;
 import me.NinjaMandalorian.ImplodusPorts.object.Port;
 import me.NinjaMandalorian.ImplodusPorts.ui.BaseButton;
 import me.NinjaMandalorian.ImplodusPorts.ui.PortMenu;
@@ -94,5 +96,23 @@ public class PortHelper {
     
     private static Double midway(Double number) {
         return Math.floor(number) + 0.5;
+    }
+
+    public static ArrayList<Port> getAvailablePorts(Player player, World world) {
+        ArrayList<Port> portList = (ArrayList<Port>) Port.getPorts().values();
+        
+        for (Port port : portList) {
+            if (!port.getTeleportLocation().getWorld().equals(world)) {
+                portList.remove(port);
+                continue;
+            }
+            
+            if (!TravelHandler.canTravelTo(port, player)) {
+                portList.remove(port);
+            }
+                
+        }
+        
+        return portList;
     }
 }
