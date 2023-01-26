@@ -100,7 +100,6 @@ public class TravelHandler {
         return;
     }
     
-    private static ArrayList<Port> findPath(Player player, Port origin, Port destination) {
     
     /**
      * Finds path between two ports for a player.
@@ -112,14 +111,38 @@ public class TravelHandler {
     public static ArrayList<Port> findPath(Player player, Port origin, Port destination) {
         ArrayList<Port> returnList = new ArrayList<Port>();
         
-        returnList.add(origin);
-        returnList.add(destination);
-        return returnList;
+        ArrayList<ArrayList<Port>> possiblePaths = getPossiblePaths(player, origin, destination); 
+        int currentPath = 0; double currentCost = getJourneyCost(possiblePaths.get(0));
+        for (int i = 1; i < possiblePaths.size(); i++) {
+            double pathCost = getJourneyCost(possiblePaths.get(i));
+            if (currentCost > pathCost) {
+                currentPath = i;
+                currentCost = pathCost;
+            }
+        }
+        
+        //returnList.add(origin);
+        //returnList.add(destination);
+        return possiblePaths.get(currentPath);
     }
     
-    private static Long getJourneyWait(Player player) {
-        ArrayList<Port> playerJourney = journeys.get(player);
+    private static ArrayList<ArrayList<Port>> getPossiblePaths(Player player, Port origin, Port destination) {
+        ArrayList<ArrayList<Port>> returnPaths = new ArrayList<ArrayList<Port>>();
         
+        ArrayList<Port> accessiblePorts = PortHelper.getAvailablePorts(player, origin.getSignLocation().getWorld());
+        
+        HashMap<Port, ArrayList<Port>> nearbyPorts = new HashMap<Port, ArrayList<Port>>();
+        for (Port port : accessiblePorts) {
+            ArrayList<Port> nearPorts = (ArrayList<Port>) port.getNearby();
+            for (Port nearPort : nearPorts) {if (!canTravelTo(nearPort, player)) nearPorts.remove(nearPort);}
+            nearbyPorts.put(port, nearPorts);
+        }
+        
+        
+        
+        return returnPaths;
+    }
+    
     /**
      * Gets the journey wait (in ticks) for a player.
      * @param player - Player to check for
