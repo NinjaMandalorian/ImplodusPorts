@@ -87,7 +87,7 @@ public class PortMenu {
             portButton = portButton.itemStack(new ItemStack(Port.getIcon(port.getSize())));
             portButton = portButton.name(port.getDisplayName());
             
-            ArrayList<Port> path = TravelHandler.findPath(player, currentPort, port);
+            ArrayList<Port> path = (ArrayList<Port>) TravelHandler.findPath(player, currentPort, port);
             
             List<String> lore = Arrays.asList(
                     ChatColor.GOLD + "Size: " + portSizeString(port),

@@ -45,7 +45,7 @@ public class TravelHandler {
      */
     public static void startJourney(Player player, Port origin, Port destination, String...args) {
         Logger.debug(player.getName() + " RUN PORT;"+origin.getId());
-        ArrayList<Port> playerJourney = findPath(player, origin, destination);
+        ArrayList<Port> playerJourney = (ArrayList<Port>) findPath(player, origin, destination);
            
         journeys.put(player, playerJourney);
         scheduleNext(player);
