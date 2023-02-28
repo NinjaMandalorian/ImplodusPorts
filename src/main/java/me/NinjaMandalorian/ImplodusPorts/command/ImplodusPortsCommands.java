@@ -17,9 +17,10 @@ import me.NinjaMandalorian.ImplodusPorts.handler.TravelHandler;
 import me.NinjaMandalorian.ImplodusPorts.helper.PortHelper;
 import me.NinjaMandalorian.ImplodusPorts.helper.StringHelper;
 import me.NinjaMandalorian.ImplodusPorts.object.Port;
+import me.NinjaMandalorian.ImplodusPorts.settings.Settings;
 
 public class ImplodusPortsCommands implements CommandExecutor, TabCompleter {
-
+    
     public ImplodusPortsCommands() {
         ImplodusPorts plugin = ImplodusPorts.getInstance();
         plugin.getCommand("implodusports").setExecutor(this);
@@ -51,8 +52,12 @@ public class ImplodusPortsCommands implements CommandExecutor, TabCompleter {
                     changeSizeCommand(player, StringHelper.remFirst(args));
                 }
                 return true;
+            case "reload":
+                if (player.hasPermission("implodusports.admin.reload")) {
+                    Settings.reloadConfig();
+                }
             default:
-                
+                return true;
             }
         }
         return false;
