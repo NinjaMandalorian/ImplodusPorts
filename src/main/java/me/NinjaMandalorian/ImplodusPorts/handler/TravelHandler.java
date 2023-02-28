@@ -83,7 +83,7 @@ public class TravelHandler {
      * @param player - Player to run next port.
      */
     private static void next(Player player) {
-        List<Port> playerJourney = journeys.get(player);
+        ArrayList<Port> playerJourney = (ArrayList<Port>) journeys.get(player);
         if (playerJourney == null) return;
         
         Logger.debug("Player " + player.getName() + " departing from " + playerJourney.get(0).getDisplayName());
