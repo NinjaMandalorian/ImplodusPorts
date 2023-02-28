@@ -37,7 +37,7 @@ public class BaseMenu implements InventoryHolder {
      */
     public void open(Player player) {
         player.openInventory(inventory);
-        if (this.openMessage != null) player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&9[&6iPorts&9] " + openMessage));
+        if (this.openMessage != null) player.sendMessage(ChatColor.translateAlternateColorCodes('&', openMessage));
     }
     
     /**

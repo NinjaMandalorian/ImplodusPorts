@@ -3,8 +3,6 @@ package me.NinjaMandalorian.ImplodusPorts.ui;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -13,8 +11,6 @@ import me.NinjaMandalorian.ImplodusPorts.ImplodusPorts;
 import me.NinjaMandalorian.ImplodusPorts.handler.TravelHandler;
 import me.NinjaMandalorian.ImplodusPorts.helper.PortHelper;
 import me.NinjaMandalorian.ImplodusPorts.object.Port;
-import me.NinjaMandalorian.ImplodusPorts.settings.Settings;
-import me.NinjaMandalorian.ImplodusPorts.ui.BaseMenu.Builder;
 import me.NinjaMandalorian.ImplodusPorts.ui.BaseMenu.PagedBuilder;
 import me.NinjaMandalorian.ImplodusPorts.ui.tasks.InventoryTask;
 import me.NinjaMandalorian.ImplodusPorts.ui.tasks.JourneyTask;
@@ -37,7 +33,7 @@ public class PortMenu {
                         .name("&o&aSee all ports")
                         .task(new InventoryTask(createPortGlobalMenu(player, port))))
                 .title("&9Port - " + port.getDisplayName())
-                .openMsg("&aOpening port &9" + port.getDisplayName() + "&a...")
+                .openMsg("&9[&6iPorts&9]&r &aOpening port &9" + port.getDisplayName() + "&a...")
                 ;
         
         ArrayList<BaseButton> buttonList = new ArrayList<BaseButton>();
@@ -61,7 +57,7 @@ public class PortMenu {
         BaseMenu builderMenu = BaseMenu.createBuilder()
                 .setButton(4, portToButton(player, port, port))
                 .title("&cGlobal Port Menu")
-                .openMsg("&aOpening &cGlobal Port Menu&a...")
+                .openMsg("&9[&6iPorts&9]&r &aOpening &cGlobal Port Menu&a...")
                 .fillOutline()
                 .build();
         
@@ -87,7 +83,7 @@ public class PortMenu {
             portButton = portButton.itemStack(new ItemStack(Port.getIcon(port.getSize())));
             portButton = portButton.name(port.getDisplayName());
             
-            ArrayList<Port> path = TravelHandler.findPath(player, currentPort, port);
+            List<Port> path = TravelHandler.findPath(player, currentPort, port);
             
             List<String> lore = Arrays.asList(
                     ChatColor.GOLD + "Size: " + portSizeString(port),

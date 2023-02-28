@@ -1,6 +1,7 @@
 package me.NinjaMandalorian.ImplodusPorts.handler;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -32,7 +33,7 @@ import net.md_5.bungee.api.ChatColor;
  */
 public class TravelHandler {
 
-    private static HashMap<Player, ArrayList<Port>> journeys = new HashMap<Player, ArrayList<Port>>();
+    private static HashMap<Player, List<Port>> journeys = new HashMap<Player, List<Port>>();
     private static ArrayList<Player> enroutePlayers = new ArrayList<Player>();
     
     /**
@@ -44,7 +45,7 @@ public class TravelHandler {
      */
     public static void startJourney(Player player, Port origin, Port destination, String...args) {
         Logger.debug(player.getName() + " RUN PORT;"+origin.getId());
-        ArrayList<Port> playerJourney = findPath(player, origin, destination);
+        List<Port> playerJourney = findPath(player, origin, destination);
            
         journeys.put(player, playerJourney);
         scheduleNext(player);
@@ -82,7 +83,7 @@ public class TravelHandler {
      * @param player - Player to run next port.
      */
     private static void next(Player player) {
-        ArrayList<Port> playerJourney = journeys.get(player);
+        List<Port> playerJourney = journeys.get(player);
         if (playerJourney == null) return;
         
         Logger.debug("Player " + player.getName() + " departing from " + playerJourney.get(0).getDisplayName());
@@ -100,7 +101,6 @@ public class TravelHandler {
         return;
     }
     
-    private static ArrayList<Port> findPath(Player player, Port origin, Port destination) {
     
     /**
      * Finds path between two ports for a player.
@@ -109,17 +109,12 @@ public class TravelHandler {
      * @param destination - End port.
      * @return List of ports to go through.
      */
-    public static ArrayList<Port> findPath(Player player, Port origin, Port destination) {
-        ArrayList<Port> returnList = new ArrayList<Port>();
-        
-        returnList.add(origin);
-        returnList.add(destination);
-        return returnList;
+    public static List<Port> findPath(Player player, Port origin, Port destination) {
+        if (origin.getNearby().contains(destination)) return Arrays.asList(origin, destination);
+        return AStarAlgorithm.findShortestPath((List<Port>) Port.getPorts().values(), origin, destination);
     }
+
     
-    private static Long getJourneyWait(Player player) {
-        ArrayList<Port> playerJourney = journeys.get(player);
-        
     /**
      * Gets the journey wait (in ticks) for a player.
      * @param player - Player to check for
@@ -135,7 +130,7 @@ public class TravelHandler {
      * @param journey - Port list
      * @return Wait in ticks
      */
-    public static Long getJourneyWait(ArrayList<Port> journey) {
+    public static Long getJourneyWait(List<Port> journey) {
         Long cumulativeTime = 0L;
         for (int i = 1; i < journey.size(); i++) {
             cumulativeTime += getWait(journey.get(i-1), journey.get(i));
