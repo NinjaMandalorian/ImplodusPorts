@@ -49,6 +49,10 @@ public class Settings {
         return config.getDouble("basecost");
     }
     
+    public static Double getSizeDistance(int size) {
+        return (Double) getSizeMap(size).get("distance");
+    }
+    
     public static Double getWalkRadius(int size) {
         return (Double) getSizeMap(size).get("walk_radius");
     }

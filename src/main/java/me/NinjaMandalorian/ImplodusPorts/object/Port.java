@@ -75,8 +75,8 @@ public class Port {
             if (port.equals(this)) continue;
             if (port.getTeleportLocation().getWorld() != this.signLocation.getWorld()) continue;
             Double distance = this.distanceTo(port);
-            if (distance > (Double) Settings.getSizeMap(size).get("distance")) continue;
-            if (distance > (Double) Settings.getSizeMap(port.getSize()).get("distance")) continue;
+            if (distance > (Double) Settings.getSizeDistance(size)) continue;
+            if (distance > (Double) Settings.getSizeDistance(port.getSize())) continue;
             returnList.add(port);
         }
         
