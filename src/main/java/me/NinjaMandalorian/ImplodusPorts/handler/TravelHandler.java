@@ -33,7 +33,7 @@ import net.md_5.bungee.api.ChatColor;
  */
 public class TravelHandler {
 
-    private static HashMap<Player, ArrayList<Port>> journeys = new HashMap<Player, ArrayList<Port>>();
+    private static HashMap<Player, List<Port>> journeys = new HashMap<Player, List<Port>>();
     private static ArrayList<Player> enroutePlayers = new ArrayList<Player>();
     
     /**
@@ -45,7 +45,7 @@ public class TravelHandler {
      */
     public static void startJourney(Player player, Port origin, Port destination, String...args) {
         Logger.debug(player.getName() + " RUN PORT;"+origin.getId());
-        ArrayList<Port> playerJourney = (ArrayList<Port>) findPath(player, origin, destination);
+        List<Port> playerJourney = findPath(player, origin, destination);
            
         journeys.put(player, playerJourney);
         scheduleNext(player);
@@ -83,7 +83,7 @@ public class TravelHandler {
      * @param player - Player to run next port.
      */
     private static void next(Player player) {
-        ArrayList<Port> playerJourney = journeys.get(player);
+        List<Port> playerJourney = journeys.get(player);
         if (playerJourney == null) return;
         
         Logger.debug("Player " + player.getName() + " departing from " + playerJourney.get(0).getDisplayName());
@@ -130,7 +130,7 @@ public class TravelHandler {
      * @param journey - Port list
      * @return Wait in ticks
      */
-    public static Long getJourneyWait(ArrayList<Port> journey) {
+    public static Long getJourneyWait(List<Port> journey) {
         Long cumulativeTime = 0L;
         for (int i = 1; i < journey.size(); i++) {
             cumulativeTime += getWait(journey.get(i-1), journey.get(i));
