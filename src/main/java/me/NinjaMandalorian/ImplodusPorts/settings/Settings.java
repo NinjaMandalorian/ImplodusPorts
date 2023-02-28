@@ -9,11 +9,13 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.MemorySection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import me.NinjaMandalorian.ImplodusPorts.ImplodusPorts;
+import me.NinjaMandalorian.ImplodusPorts.data.DataManager;
 
 public class Settings {
     
@@ -63,9 +65,14 @@ public class Settings {
     public static void reloadConfig() {
         if (verComp(config.getString("version"), plugin.getDescription().getVersion()) == 1) return;
         // Gets internal config file as a Reader
+        
+        // Gets current config (gets file OR default)
+        YamlConfiguration fileConfig = YamlConfiguration.loadConfiguration(new File("plugins" + File.separator + 
+                "ImplodusPorts" + File.separator + "data" + File.separator + "config.yml"));
+        
         Reader defConfigStream = new InputStreamReader(plugin.getResource("config.yml"));
         if (defConfigStream != null) {
-            
+            Bukkit.getLogger().info("CURRENT CONFIG:\n" + fileConfig.saveToString());
             // Converts into a YamlConfig
             YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
             
@@ -73,10 +80,11 @@ public class Settings {
             Map<String, Object> defMap = defConfig.getValues(true);
             
             // Gets all current values in a map for iteration
-            Map<String, Object> configMap = config.getValues(true);
+            Map<String, Object> configMap = fileConfig.getValues(true);
             
             for (Entry<String,Object> configEntry : configMap.entrySet()) {
                 // If it is a memory section then it is ignored.
+                Bukkit.getLogger().info(configEntry.getKey() + " " + configEntry.getValue().getClass().getName());
                 if (configEntry.getValue() instanceof MemorySection) continue;
                 
                 if (defMap.containsKey(configEntry.getKey())) {
@@ -85,10 +93,14 @@ public class Settings {
             }
             
             try {
-                config = defConfig;
+                Bukkit.getLogger().info("NEW CONFIG: \n" + defConfig.saveToString());
+                config.loadFromString(defConfig.saveToString());
                 config.save(new File(plugin.getDataFolder(), "config.yml"));
             } catch(IOException e) {
                 Bukkit.getLogger().info("IOException when saving config.");
+            } catch (InvalidConfigurationException e) {
+                // TODO Auto-generated catch block
+                Bukkit.getLogger().info("InvaidConfigurationException when saving config.");
             }
        
         }
