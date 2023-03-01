@@ -44,7 +44,7 @@ public class TravelHandler {
      */
     public static void startJourney(Player player, Port origin, Port destination, String...args) {
         Logger.debug(player.getName() + " RUN PORT;"+origin.getId());
-        List<Port> playerJourney = findPath(player, origin, destination);
+        ArrayList<Port> playerJourney = findPath(player, origin, destination);
            
         journeys.put(player, playerJourney);
         scheduleNext(player);
@@ -108,8 +108,8 @@ public class TravelHandler {
      * @param destination - End port.
      * @return List of ports to go through.
      */
-    public static List<Port> findPath(Player player, Port origin, Port destination) {
-        if (origin.getNearby().contains(destination)) return Arrays.asList(origin, destination);
+    public static ArrayList<Port> findPath(Player player, Port origin, Port destination) {
+        if (origin.getNearby().contains(destination)) return (ArrayList<Port>) Arrays.asList(origin, destination);
         return AStarAlgorithm.findShortestPath((List<Port>) Port.getPorts().values(), origin, destination);
     }
 
