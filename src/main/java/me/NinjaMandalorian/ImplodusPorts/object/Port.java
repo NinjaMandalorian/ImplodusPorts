@@ -76,6 +76,7 @@ public class Port {
 		for (Port port : activePorts.values()) {
 			if (port.equals(this)) {
 				if (port.getTeleportLocation().getWorld() != this.signLocation.getWorld()) {
+					continue;
 				}
 				Double distance = this.distanceTo(port);
 				Double port1Distance = 0.0;
