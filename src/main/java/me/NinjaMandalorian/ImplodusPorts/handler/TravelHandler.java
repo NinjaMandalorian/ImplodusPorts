@@ -1,7 +1,6 @@
 package me.NinjaMandalorian.ImplodusPorts.handler;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -11,6 +10,7 @@ import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 
 import me.NinjaMandalorian.ImplodusPorts.ImplodusPorts;
 import me.NinjaMandalorian.ImplodusPorts.Logger;
+import me.NinjaMandalorian.ImplodusPorts.helper.StringHelper;
 import me.NinjaMandalorian.ImplodusPorts.object.Port;
 import me.NinjaMandalorian.ImplodusPorts.settings.Settings;
 import net.md_5.bungee.api.ChatColor;
@@ -32,7 +32,7 @@ import net.md_5.bungee.api.ChatColor;
  */
 public class TravelHandler {
 
-    private static HashMap<Player, List<Port>> journeys = new HashMap<Player, List<Port>>();
+    private static HashMap<Player, ArrayList<Port>> journeys = new HashMap<Player, ArrayList<Port>>();
     private static ArrayList<Player> enroutePlayers = new ArrayList<Player>();
     
     /**
@@ -43,9 +43,13 @@ public class TravelHandler {
      * @param args - Extra arguments
      */
     public static void startJourney(Player player, Port origin, Port destination, String...args) {
-        Logger.debug(player.getName() + " RUN PORT;"+origin.getId());
-        ArrayList<Port> playerJourney = findPath(player, origin, destination);
-           
+        Logger.debug(player.getName() + " RUN PORT;"+origin.getId()); // Logs start
+        ArrayList<Port> playerJourney = findPath(player, origin, destination); // Gets path
+        if (playerJourney == null) { // If no available path, notifies and returns.
+            player.sendMessage("&cThere is no route to this port."); 
+            return;
+        }
+        // Caches journey and schedules 1st.
         journeys.put(player, playerJourney);
         scheduleNext(player);
     }
@@ -70,10 +74,10 @@ public class TravelHandler {
         if (enroutePlayers.contains(player)) return;
         enroutePlayers.add(player);
         
-        Long time = getJourneyWait(player);
+        Long time = getWait(player);
         
         Bukkit.getScheduler().scheduleSyncDelayedTask(ImplodusPorts.getInstance(), () -> next(player), time);
-        player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&aYou will be teleported in &d" + time/20 + "&a seconds."));
+        player.sendMessage(StringHelper.color("&aYou will be teleported in &d" + time/20 + "&a seconds."));
     }
     
     
@@ -82,19 +86,30 @@ public class TravelHandler {
      * @param player - Player to run next port.
      */
     private static void next(Player player) {
-        ArrayList<Port> playerJourney = (ArrayList<Port>) journeys.get(player);
+        ArrayList<Port> playerJourney = journeys.get(player);
         if (playerJourney == null) return;
         
+        // Logs depart
         Logger.debug("Player " + player.getName() + " departing from " + playerJourney.get(0).getDisplayName());
         
+        // Economy notif & withdraw
+        player.sendMessage(StringHelper.color("&aYou bought a ticket for " + ImplodusPorts.getEconomy().format(getTravelCost(player))));
+        ImplodusPorts.getEconomy().withdrawPlayer(player, getTravelCost(player));
+        
+        // Removes player from enroute list.
+        enroutePlayers.remove(player);
+        
+        // Teleports player to next port
         player.teleport(playerJourney.get(1).getTeleportLocation(), TeleportCause.PLUGIN);
         
         playerJourney.remove(0);
-        enroutePlayers.remove(player);
         if (playerJourney.size() > 1) {
+            // Another port in journey, sends notif & updates journey.
             MessageHandler.sendJourneyNext(player);
             journeys.put(player, playerJourney);
         } else {
+            // Notifies of final destination & empties journey.
+            player.sendMessage(StringHelper.color("&aYou have arrived at &d" + playerJourney.get(0).getDisplayName() + "&a."));
             journeys.put(player, null);
         }
         return;
@@ -109,8 +124,11 @@ public class TravelHandler {
      * @return List of ports to go through.
      */
     public static ArrayList<Port> findPath(Player player, Port origin, Port destination) {
-        if (origin.getNearby().contains(destination)) return (ArrayList<Port>) Arrays.asList(origin, destination);
-        return AStarAlgorithm.findShortestPath((List<Port>) Port.getPorts().values(), origin, destination);
+        if (origin.getNearby().contains(destination)) {
+            ArrayList<Port> returnL = new ArrayList<Port>(); returnL.add(origin); returnL.add(destination);
+            return returnL;
+        }
+        return AStarAlgorithm.findShortestPath(new ArrayList<Port>(Port.getPorts().values()), origin, destination);
     }
 
     
@@ -120,6 +138,7 @@ public class TravelHandler {
      * @return Wait in ticks
      */
     
+    @SuppressWarnings("unused")
     private static Long getJourneyWait(Player player) {
         return getJourneyWait(journeys.get(player));
     }
@@ -179,6 +198,11 @@ public class TravelHandler {
         return waitTime;
     }
     
+    private static Long getWait(Player player) {
+        if (journeys.get(player) == null) return 1L;
+        return getWait(journeys.get(player).get(0), journeys.get(player).get(1));
+    }
+    
     /**
      * Gets travel cost between two ports
      * @param origin - Start port
@@ -195,8 +219,14 @@ public class TravelHandler {
         return cost;
     }
     
+    private static Double getTravelCost(Player player) {
+        if (journeys.get(player) == null) return 0.00;
+        return getTravelCost(journeys.get(player).get(0), journeys.get(player).get(1));
+    }
+    
     /**
-     * Gets if player can travel to port
+     * Gets if player can travel to port<br>
+     * Not currently implemented
      * @param port - Port to travel to
      * @param player - Player travelling
      * @return Boolean of if available
