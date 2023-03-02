@@ -72,12 +72,47 @@ public class Port {
         ArrayList<Port> returnList = new ArrayList<Port>();
         
         for (Port port : activePorts.values()) {
-            if (port.equals(this)) continue;
-            if (port.getTeleportLocation().getWorld() != this.signLocation.getWorld()) continue;
-            Double distance = this.distanceTo(port);
-            if (distance > (Double) Settings.getSizeDistance(size)) continue;
-            if (distance > (Double) Settings.getSizeDistance(port.getSize())) continue;
-            returnList.add(port);
+            if (port.equals(this)) {
+            	if (port.getTeleportLocation().getWorld() != this.signLocation.getWorld()) {
+            		Double distance = this.distanceTo(port);
+            		Double port1Distance = 0.0;
+            		switch (size) {
+            		case 1:
+            			port1Distance = Settings.smallDistance;
+            			break;
+            		case 2:
+            			port1Distance = Settings.mediumDistance;
+            			break;
+            		case 3:
+            			port1Distance = Settings.largeDistance;
+            			break;
+            		case 4:
+            			port1Distance = Settings.megaDistance;
+            			break;
+            		}
+            		if (distance > port1Distance) {
+            			Double port2Distance = 0.0;
+                		switch (port.getSize()) {
+                		case 1:
+                			port2Distance = Settings.smallDistance;
+                			break;
+                		case 2:
+                			port2Distance = Settings.mediumDistance;
+                			break;
+                		case 3:
+                			port2Distance = Settings.largeDistance;
+                			break;
+                		case 4:
+                			port2Distance = Settings.megaDistance;
+                			break;
+                		}
+            			 if (distance > port2Distance) {
+            				 returnList.add(port);
+            			 }
+            		}
+            	}
+            }
+
         }
         
         if (returnList.size() == 0) {
