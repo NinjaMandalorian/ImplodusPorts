@@ -190,7 +190,7 @@ public class TravelHandler {
     private static Long getWait(Port origin, Port destination) {
         Double distance = origin.distanceTo(destination);
         int size = Math.min(origin.getSize(), destination.getSize());
-        Long waitTime = 100L;
+        Long waitTime = 80L;
         
         Double speed = (Double) Settings.getSizeMap(size).get("speed");
         waitTime += Math.round(distance/speed)*20L;
