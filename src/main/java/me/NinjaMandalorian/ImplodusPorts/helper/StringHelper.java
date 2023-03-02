@@ -1,5 +1,7 @@
 package me.NinjaMandalorian.ImplodusPorts.helper;
 
+import net.md_5.bungee.api.ChatColor;
+
 public class StringHelper {
     
     public static String[] remFirst(String[] strings) {
@@ -25,6 +27,10 @@ public class StringHelper {
         }
         
         return returnString;
+    }
+    
+    public static String color(String string) {
+        return ChatColor.translateAlternateColorCodes('&', string);
     }
     
 }
