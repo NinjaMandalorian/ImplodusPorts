@@ -54,14 +54,20 @@ public class PortMenu {
      */
     public static BaseMenu createPortGlobalMenu(Player player, Port port) {
 
-        BaseMenu builderMenu = BaseMenu.createBuilder()
+        PagedBuilder builder = BaseMenu.createPagedBuilder()
+                .makePageButtons()
                 .setButton(4, portToButton(player, port, port))
                 .title("&cGlobal Port Menu")
                 .openMsg("&9[&6iPorts&9]&r &aOpening &cGlobal Port Menu&a...")
-                .fillOutline()
-                .build();
+                ;
         
-        return builderMenu;
+        ArrayList<BaseButton> buttonList = new ArrayList<BaseButton>();
+        for (Port availablePort : PortHelper.orderPorts(port, new ArrayList<Port>(Port.getPorts().values()))) {
+            buttonList.add(portToButton(player, port, availablePort));
+        }
+        builder = builder.setContents(buttonList);
+        
+        return builder.build();
     }
     
     public static BaseButton portToButton(Player player, Port currentPort, Port port) {
@@ -83,14 +89,23 @@ public class PortMenu {
             portButton = portButton.itemStack(new ItemStack(Port.getIcon(port.getSize())));
             portButton = portButton.name(port.getDisplayName());
             
-            List<Port> path = TravelHandler.findPath(player, currentPort, port);
+            List<String> lore;
             
-            List<String> lore = Arrays.asList(
-                    ChatColor.GOLD + "Size: " + portSizeString(port),
-                    ChatColor.GOLD + "Travel Time: "+ (TravelHandler.getJourneyWait(path)/20L),
-                    ChatColor.GOLD + "Cost: " + ImplodusPorts.econ.format(TravelHandler.getJourneyCost(path)),
-                    ChatColor.GREEN + "Click to Travel"
-                    );
+            if (currentPort.getNearby().contains(port)) {
+                ArrayList<Port> path = TravelHandler.findPath(player, currentPort, port);
+                lore = Arrays.asList(
+                        ChatColor.GOLD + "Size: " + portSizeString(port),
+                        ChatColor.GOLD + "Travel Time: "+ (TravelHandler.getJourneyWait(path)/20L),
+                        ChatColor.GOLD + "Cost: " + ImplodusPorts.econ.format(TravelHandler.getJourneyCost(path)),
+                        ChatColor.GREEN + "Click to Travel"
+                        );
+            } else {
+                lore = Arrays.asList(
+                        ChatColor.GOLD + "Size: " + portSizeString(port),
+                        ChatColor.GREEN + "Click to begin Journey"
+                        );
+            }
+            
             
             portButton = portButton.lore(lore);
             portButton = portButton.task(new JourneyTask(currentPort, port));

@@ -69,6 +69,10 @@ public class ImplodusPorts extends JavaPlugin {
     public static ImplodusPorts getInstance() {
         return instance;
     }
+    
+    public static Economy getEconomy() {
+        return econ;
+    }
 
     public BukkitAudiences getAdventure() {
         return adventure;
