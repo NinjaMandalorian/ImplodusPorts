@@ -56,7 +56,21 @@ public class PlayerListener implements Listener {
         Port port = TravelHandler.getCurrentPort(player);
         if (port == null) return;
         Double distance = port.getSignLocation().distance(e.getTo());
-        Double maxDistance = Settings.getWalkRadius(port.getSize());
+        Double maxDistance = 0.0;
+        switch (port.getSize()) {
+		case 1:
+			maxDistance = Settings.smallWalkRadius;
+			break;
+		case 2:
+			maxDistance = Settings.mediumWalkRadius;
+			break;
+		case 3:
+			maxDistance = Settings.largeWalkRadius;
+			break;
+		case 4:
+			maxDistance = Settings.megaWalkRadius;
+			break;
+		}
         
         if (distance < maxDistance * .8) return;
                 
