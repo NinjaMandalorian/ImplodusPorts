@@ -95,7 +95,7 @@ public class TravelHandler {
 
 		player.teleport(playerJourney.get(1).getTeleportLocation(), TeleportCause.PLUGIN);
 
-		playerJourney.remove(0);
+		playerJourney = PortHelper.delFront(playerJourney);
 		enroutePlayers.remove(player);
 		
 		player.getWorld().playSound(player, Sound.ITEM_CHORUS_FRUIT_TELEPORT , 1, 1);
