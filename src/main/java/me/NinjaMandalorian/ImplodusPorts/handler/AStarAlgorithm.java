@@ -8,7 +8,7 @@ import me.NinjaMandalorian.ImplodusPorts.object.Port;
 
 public class AStarAlgorithm {
 
-    public static ArrayList<Port> findShortestPath(List<Port> ports, Port start, Port goal) {
+    public static ArrayList<Port> findShortestPath(Collection<Port> ports, Port start, Port goal) {
         Set<Port> visited = new HashSet<Port>();
         Map<Port, Double> gScores = new HashMap<Port, Double>();
         Map<Port, Double> fScores = new HashMap<Port, Double>();
