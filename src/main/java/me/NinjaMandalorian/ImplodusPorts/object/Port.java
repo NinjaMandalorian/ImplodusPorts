@@ -72,52 +72,52 @@ public class Port {
 
 	public List<Port> getNearby() {
 		ArrayList<Port> returnList = new ArrayList<Port>();
-
+		Logger.debug("GETTING NEARBY FOR " + this.id);
 		for (Port port : activePorts.values()) {
 			if (port.equals(this)) {
 				if (port.getTeleportLocation().getWorld() != this.signLocation.getWorld()) {
 					continue;
 				}
-				Double distance = this.distanceTo(port);
-				Double port1Distance = 0.0;
-				switch (size) {
-				case 1:
-					port1Distance = Settings.smallDistance;
-					break;
-				case 2:
-					port1Distance = Settings.mediumDistance;
-					break;
-				case 3:
-					port1Distance = Settings.largeDistance;
-					break;
-				case 4:
-					port1Distance = Settings.megaDistance;
-					break;
-				}
-				Double port2Distance = 0.0;
-				switch (port.getSize()) {
-				case 1:
-					port2Distance = Settings.smallDistance;
-					break;
-				case 2:
-					port2Distance = Settings.mediumDistance;
-					break;
-				case 3:
-					port2Distance = Settings.largeDistance;
-					break;
-				case 4:
-					port2Distance = Settings.megaDistance;
-					break;
-				}
-				if (distance > port1Distance) {
-					continue;
-
-				}
-//				if (distance > port2Distance) {
-//					continue;
-//				}
-				returnList.add(port);
 			}
+    		Double distance = this.distanceTo(port);
+    		Double port1Distance = 0.0;
+    		switch (size) {
+    		case 1:
+    			port1Distance = Settings.smallDistance;
+    			break;
+    		case 2:
+    			port1Distance = Settings.mediumDistance;
+    			break;
+    		case 3:
+    			port1Distance = Settings.largeDistance;
+    			break;
+    		case 4:
+    			port1Distance = Settings.megaDistance;
+    			break;
+    		}
+    		Double port2Distance = 0.0;
+    		switch (port.getSize()) {
+    		case 1:
+    			port2Distance = Settings.smallDistance;
+    			break;
+    		case 2:
+    			port2Distance = Settings.mediumDistance;
+    			break;
+    		case 3:
+    			port2Distance = Settings.largeDistance;
+    			break;
+    		case 4:
+    			port2Distance = Settings.megaDistance;
+    			break;
+    		}
+    		if (distance > port1Distance) {
+    			continue;
+    
+    		}
+//			if (distance > port2Distance) {
+//				continue;
+//			}
+    		returnList.add(port);
 		}
 
 		if (returnList.size() == 0) {
