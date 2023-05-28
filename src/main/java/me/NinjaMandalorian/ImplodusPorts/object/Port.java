@@ -113,9 +113,9 @@ public class Port {
 					continue;
 
 				}
-				if (distance > port2Distance) {
-					continue;
-				}
+//				if (distance > port2Distance) {
+//					continue;
+//				}
 				returnList.add(port);
 			}
 		}
