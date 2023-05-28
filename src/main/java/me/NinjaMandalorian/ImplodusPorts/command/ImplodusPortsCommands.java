@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.command.Command;
@@ -45,6 +46,7 @@ public class ImplodusPortsCommands implements CommandExecutor, TabCompleter {
                 travelCommand(player, StringHelper.remFirst(args));
                 return true;
             case "next":
+                player.playSound(player, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
                 TravelHandler.scheduleNext(player);
                 return true;
             case "changesize":

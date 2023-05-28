@@ -47,6 +47,7 @@ public class TravelHandler {
 	public static void startJourney(Player player, Port origin, Port destination, String... args) {
 		Logger.debug(player.getName() + " RUN PORT;" + origin.getId());
 		List<Port> playerJourney = findPath(player, origin, destination);
+		player.playSound(player, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
 		journeys.put(player, playerJourney);
 		scheduleNext(player);
 	}
@@ -96,6 +97,8 @@ public class TravelHandler {
 
 		playerJourney.remove(0);
 		enroutePlayers.remove(player);
+		
+		player.getWorld().playSound(player, Sound.ITEM_CHORUS_FRUIT_TELEPORT , 1, 1);
 		if (playerJourney.size() > 1) {
 			MessageHandler.sendJourneyNext(player);
 			journeys.put(player, playerJourney);
