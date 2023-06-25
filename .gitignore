@@ -28,3 +28,4 @@ target
 .classpath
 *.bat
 dependency-reduced-pom.xml
+.vscode
