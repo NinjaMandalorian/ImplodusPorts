@@ -92,7 +92,7 @@ public class PortMenu {
             List<String> lore;
             
             if (currentPort.getNearby().contains(port)) {
-                ArrayList<Port> path = TravelHandler.findPath(player, currentPort, port);
+                List<Port> path = TravelHandler.findPath(player, currentPort, port);
                 lore = Arrays.asList(
                         ChatColor.GOLD + "Size: " + portSizeString(port),
                         ChatColor.GOLD + "Travel Time: "+ (TravelHandler.getJourneyWait(path)/20L),

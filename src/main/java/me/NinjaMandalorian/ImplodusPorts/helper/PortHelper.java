@@ -112,4 +112,14 @@ public class PortHelper {
         
         return portList;
     }
+
+    public static List<Port> delFront(List<Port> inList) {
+        Port[] inArray = inList.toArray(new Port[inList.size()]);
+        ArrayList<Port> returnList = new ArrayList<Port>();
+        for (int i = 1; i < inArray.length; i++) {
+            returnList.add(inArray[i]);
+        }
+        
+        return returnList;
+    }
 }

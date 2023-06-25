@@ -2,15 +2,20 @@ package me.NinjaMandalorian.ImplodusPorts.handler;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 
 import me.NinjaMandalorian.ImplodusPorts.ImplodusPorts;
 import me.NinjaMandalorian.ImplodusPorts.Logger;
+import me.NinjaMandalorian.ImplodusPorts.helper.PortHelper;
+import me.NinjaMandalorian.ImplodusPorts.helper.StringHelper;
 import me.NinjaMandalorian.ImplodusPorts.object.Port;
 import me.NinjaMandalorian.ImplodusPorts.settings.Settings;
 import net.md_5.bungee.api.ChatColor;
@@ -46,8 +51,19 @@ public class TravelHandler {
 	 */
 	public static void startJourney(Player player, Port origin, Port destination, String... args) {
 		Logger.debug(player.getName() + " RUN PORT;" + origin.getId());
-		ArrayList<Port> playerJourney = findPath(player, origin, destination);
-
+		List<Port> playerJourney = findPath(player, origin, destination);
+		if (playerJourney == null) {
+		    player.sendMessage("" + ChatColor.RED + "There is no route to this port.");
+		    return;
+		}
+		
+		Double cost = getJourneyCost(playerJourney);
+		if (ImplodusPorts.getEconomy().getBalance(player) < cost) {
+		    player.sendMessage(ChatColor.RED + "You need " + ChatColor.GOLD + ImplodusPorts.getEconomy().format(cost) + ChatColor.RED + " for tickets.");
+		    return;
+		}
+		
+		player.playSound(player, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
 		journeys.put(player, playerJourney);
 		scheduleNext(player);
 	}
@@ -74,7 +90,8 @@ public class TravelHandler {
 			return;
 		enroutePlayers.add(player);
 
-		Long time = getJourneyWait(player);
+		List<Port> journey = journeys.get(player);
+		Long time = getWait(journey.get(0), journey.get(1));
 
 		Bukkit.getScheduler().scheduleSyncDelayedTask(ImplodusPorts.getInstance(), () -> next(player), time);
 		player.sendMessage(ChatColor.translateAlternateColorCodes('&',
@@ -87,21 +104,29 @@ public class TravelHandler {
 	 * @param player - Player to run next port.
 	 */
 	private static void next(Player player) {
-		ArrayList<Port> playerJourney = (ArrayList<Port>) journeys.get(player);
+		List<Port> playerJourney = journeys.get(player);
 		if (playerJourney == null)
 			return;
 
 		Logger.debug("Player " + player.getName() + " departing from " + playerJourney.get(0).getDisplayName());
 
+		// Economy notif & withdraw
+		Double cost = getTravelCost(journeys.get(player).get(0), journeys.get(player).get(1));
+        player.sendMessage(StringHelper.color("&aYou bought a ticket for " + ImplodusPorts.getEconomy().format(cost)));
+        ImplodusPorts.getEconomy().withdrawPlayer((OfflinePlayer) player, cost);
+		
 		player.teleport(playerJourney.get(1).getTeleportLocation(), TeleportCause.PLUGIN);
 
-		playerJourney.remove(0);
+		playerJourney = PortHelper.delFront(playerJourney);
 		enroutePlayers.remove(player);
+		
+		player.getWorld().playSound(player, Sound.ITEM_CHORUS_FRUIT_TELEPORT , 1, 1);
 		if (playerJourney.size() > 1) {
 			MessageHandler.sendJourneyNext(player);
 			journeys.put(player, playerJourney);
 		} else {
 			journeys.put(player, null);
+			MessageHandler.sendJourneyEnd(player, playerJourney.get(0));
 		}
 		return;
 	}
@@ -114,10 +139,10 @@ public class TravelHandler {
 	 * @param destination - End port.
 	 * @return List of ports to go through.
 	 */
-	public static ArrayList<Port> findPath(Player player, Port origin, Port destination) {
+	public static List<Port> findPath(Player player, Port origin, Port destination) {
 		if (origin.getNearby().contains(destination))
-			return (ArrayList<Port>) Arrays.asList(origin, destination);
-		return AStarAlgorithm.findShortestPath((List<Port>) Port.getPorts().values(), origin, destination);
+			return (List<Port>) Arrays.asList(origin, destination);
+		return AStarAlgorithm.findShortestPath((Collection<Port>) Port.getPorts().values(), origin, destination);
 	}
 
 	/**

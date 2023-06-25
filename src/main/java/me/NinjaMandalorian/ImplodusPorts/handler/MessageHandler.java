@@ -1,9 +1,10 @@
 package me.NinjaMandalorian.ImplodusPorts.handler;
 
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import me.NinjaMandalorian.ImplodusPorts.ImplodusPorts;
-
+import me.NinjaMandalorian.ImplodusPorts.object.Port;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.kyori.adventure.text.Component;
@@ -24,6 +25,23 @@ public class MessageHandler {
         Component component = Component.text(ChatColor.translateAlternateColorCodes('&', "&f[&aNext Port&f]"))
                 .hoverEvent(HoverEvent.showText(Component.text("Click to begin travelling...")))
                 .clickEvent(ClickEvent.runCommand("/implodusports:iports next"));
+        
+        audience.sendMessage(component);
+    }
+
+    public static void sendJourneyEnd(Player player, Port finalPort) {
+        BukkitAudiences adventure = ImplodusPorts.getInstance().getAdventure();
+        Audience audience = adventure.player(player);
+        
+        Location portLoc = finalPort.getTeleportLocation();
+        
+        Component component = Component.text(ChatColor.translateAlternateColorCodes('&', "&aYou have arrived at "));
+                
+        component = component.append(Component.text(ChatColor.translateAlternateColorCodes('&', "&d" + finalPort.getDisplayName())))
+                .hoverEvent(HoverEvent.showText(Component.text("Location: " + portLoc.getBlockX() + ", " + portLoc.getBlockZ())));
+        
+        
+        component = component.append(Component.text(ChatColor.GREEN + "."));
         
         audience.sendMessage(component);
     }
