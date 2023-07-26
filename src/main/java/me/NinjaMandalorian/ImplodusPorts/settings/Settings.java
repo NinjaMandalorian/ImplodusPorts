@@ -1,18 +1,9 @@
 package me.NinjaMandalorian.ImplodusPorts.settings;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import org.bukkit.configuration.MemorySection;
+import me.NinjaMandalorian.ImplodusPorts.ImplodusPorts;
 import org.bukkit.configuration.file.FileConfiguration;
 
-import me.NinjaMandalorian.ImplodusPorts.ImplodusPorts;
-
 public class Settings {
-
-	private static ImplodusPorts plugin;
-	private static FileConfiguration config;
 
 	// Default config values. These are set to prevent potential null errors for
 	// unimplemented variables.
@@ -32,6 +23,8 @@ public class Settings {
 	public static double megaCost = 15.00;
 	public static double megaSpeed = 40.00;
 	public static double megaWalkRadius = 50.00;
+	private static ImplodusPorts plugin;
+	private static FileConfiguration config;
 
 	public static void init() {
 
@@ -63,25 +56,25 @@ public class Settings {
 	}
 
 	//public static Map<String, Object> getSizeMap(int size) {
-		//switch (size) {
-		//case 1:
-		//	return small;
-		//case 2:
-		//	return medium;
-		//case 3:
-		//	return large;
-		//case 4:
-		//	return mega;
-		//}
-		//return null;
+	//switch (size) {
+	//case 1:
+	//	return small;
+	//case 2:
+	//	return medium;
+	//case 3:
+	//	return large;
+	//case 4:
+	//	return mega;
+	//}
+	//return null;
 	//}
 
 	//public static Double getSizeDistance(int size) {
-		//return (Double) getSizeMap(size).get("distance");
+	//return (Double) getSizeMap(size).get("distance");
 	//}
 
 	//public static Double getWalkRadius(int size) {
-		//return (Double) getSizeMap(size).get("walk_radius");
+	//return (Double) getSizeMap(size).get("walk_radius");
 	//}
 
 	/**
@@ -90,7 +83,7 @@ public class Settings {
 	public static void reloadConfig() {
 		ImplodusPorts.getInstance().reloadConfig();
 		ImplodusPorts.getInstance().saveDefaultConfig();
-		
+
 		plugin = ImplodusPorts.getInstance();
 
 		plugin.saveDefaultConfig();

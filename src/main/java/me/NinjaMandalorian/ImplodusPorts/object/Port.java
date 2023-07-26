@@ -1,24 +1,22 @@
 package me.NinjaMandalorian.ImplodusPorts.object;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-
+import me.NinjaMandalorian.ImplodusPorts.Logger;
+import me.NinjaMandalorian.ImplodusPorts.data.PortDataManager;
+import me.NinjaMandalorian.ImplodusPorts.settings.Settings;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
-import me.NinjaMandalorian.ImplodusPorts.Logger;
-import me.NinjaMandalorian.ImplodusPorts.data.PortDataManager;
-import me.NinjaMandalorian.ImplodusPorts.settings.Settings;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Port object, handles all interactions with individual ports.
- * 
- * @author NinjaMandalorian
  *
+ * @author NinjaMandalorian
  */
 public class Port {
 
@@ -32,9 +30,7 @@ public class Port {
 
 	/**
 	 * Constructor for individual ports.
-	 * 
-	 * @param name        - id
-	 * @param location
+	 *
 	 * @param size
 	 * @param displayName
 	 */
@@ -50,113 +46,19 @@ public class Port {
 		this(id, sLocation, tLocation, size, id);
 	}
 
-	public String getId() {
-		return this.id;
-	}
-
-	public Location getSignLocation() {
-		return this.signLocation;
-	}
-
-	public Location getTeleportLocation() {
-		return this.teleportLocation;
-	}
-
-	public int getSize() {
-		return this.size;
-	}
-
-	public String getDisplayName() {
-		return this.displayName;
-	}
-
-	public List<Port> getNearby() {
-		ArrayList<Port> returnList = new ArrayList<Port>();
-		Logger.debug("GETTING NEARBY FOR " + this.id);
-		for (Port port : activePorts.values()) {
-			if (port.equals(this)) {
-				if (port.getTeleportLocation().getWorld() != this.signLocation.getWorld()) {
-					continue;
-				}
-			}
-    		Double distance = this.distanceTo(port);
-    		Double port1Distance = 0.0;
-    		switch (size) {
-    		case 1:
-    			port1Distance = Settings.smallDistance;
-    			break;
-    		case 2:
-    			port1Distance = Settings.mediumDistance;
-    			break;
-    		case 3:
-    			port1Distance = Settings.largeDistance;
-    			break;
-    		case 4:
-    			port1Distance = Settings.megaDistance;
-    			break;
-    		}
-    		Double port2Distance = 0.0;
-    		switch (port.getSize()) {
-    		case 1:
-    			port2Distance = Settings.smallDistance;
-    			break;
-    		case 2:
-    			port2Distance = Settings.mediumDistance;
-    			break;
-    		case 3:
-    			port2Distance = Settings.largeDistance;
-    			break;
-    		case 4:
-    			port2Distance = Settings.megaDistance;
-    			break;
-    		}
-    		if (distance > port1Distance) {
-    			continue;
-    
-    		}
-//			if (distance > port2Distance) {
-//				continue;
-//			}
-    		returnList.add(port);
-		}
-
-		if (returnList.size() == 0) {
-			Port closestPort = null;
-			for (Port port : activePorts.values()) {
-				if (closestPort == null || this.distanceTo(closestPort) > this.distanceTo(port)) {
-					closestPort = port;
-				}
-			}
-			returnList.add(closestPort);
-		}
-
-		return returnList;
-	}
-
-	public Double distanceTo(Port port) {
-		if (!this.signLocation.getWorld().equals(port.getSignLocation().getWorld()))
-			return 0.0;
-		return (this.getSignLocation().distance(port.getSignLocation()));
-	}
-
-	public void changeSize(int newSize) {
-		this.size = Math.min(4, Math.max(1, newSize));
-		PortDataManager.savePort(this);
-	}
-
 	/**
 	 * Gets all the icons for each type of port.
-	 * 
+	 *
 	 * @return List of Materials
 	 */
 	public static List<Material> getIcons() {
 		return Arrays.asList(Material.GLASS, Material.BIRCH_BOAT, Material.OAK_BOAT, Material.DARK_OAK_BOAT,
-				Material.MANGROVE_BOAT);
+			Material.MANGROVE_BOAT);
 	}
 
 	/**
 	 * Gives icon for port size
-	 * 
+	 *
 	 * @param size - Port size
 	 * @return Material
 	 */
@@ -168,7 +70,7 @@ public class Port {
 
 	/**
 	 * Get all Ports
-	 * 
+	 *
 	 * @return List of a Ports
 	 */
 	public static HashMap<String, Port> getPorts() {
@@ -208,6 +110,100 @@ public class Port {
 		Logger.log("Player " + player != null ? player.getName() : "CONSOLE" + " destroyed port " + port.getId());
 		activePorts.remove(port.getId());
 		PortDataManager.deletePort(port);
+	}
+
+	public String getId() {
+		return this.id;
+	}
+
+	public Location getSignLocation() {
+		return this.signLocation;
+	}
+
+	public Location getTeleportLocation() {
+		return this.teleportLocation;
+	}
+
+	public int getSize() {
+		return this.size;
+	}
+
+	public String getDisplayName() {
+		return this.displayName;
+	}
+
+	public List<Port> getNearby() {
+		ArrayList<Port> returnList = new ArrayList<Port>();
+		Logger.debug("GETTING NEARBY FOR " + this.id);
+		for (Port port : activePorts.values()) {
+			if (port.equals(this)) {
+				if (port.getTeleportLocation().getWorld() != this.signLocation.getWorld()) {
+					continue;
+				}
+			}
+			Double distance = this.distanceTo(port);
+			Double port1Range = 0.0;
+			switch (size) {
+				case 1:
+					port1Range = Settings.smallDistance;
+					break;
+				case 2:
+					port1Range = Settings.mediumDistance;
+					break;
+				case 3:
+					port1Range = Settings.largeDistance;
+					break;
+				case 4:
+					port1Range = Settings.megaDistance;
+					break;
+			}
+			Double port2Range = 0.0;
+			switch (port.getSize()) {
+				case 1:
+					port2Range = Settings.smallDistance;
+					break;
+				case 2:
+					port2Range = Settings.mediumDistance;
+					break;
+				case 3:
+					port2Range = Settings.largeDistance;
+					break;
+				case 4:
+					port2Range = Settings.megaDistance;
+					break;
+			}
+			if (distance > port1Range && distance > port2Range) {
+				continue;
+
+			}
+//			if (distance > port2Range) {
+//				continue;
+//			}
+			returnList.add(port);
+		}
+
+		if (returnList.size() == 0) {
+			Port closestPort = null;
+			for (Port port : activePorts.values()) {
+				if (closestPort == null || this.distanceTo(closestPort) > this.distanceTo(port)) {
+					closestPort = port;
+				}
+			}
+			returnList.add(closestPort);
+		}
+
+		return returnList;
+	}
+
+	public Double distanceTo(Port port) {
+		if (!this.signLocation.getWorld().equals(port.getSignLocation().getWorld()))
+			return 0.0;
+		return (this.getSignLocation().distance(port.getSignLocation()));
+	}
+
+	public void changeSize(int newSize) {
+		this.size = Math.min(4, Math.max(1, newSize));
+		PortDataManager.savePort(this);
 	}
 
 }

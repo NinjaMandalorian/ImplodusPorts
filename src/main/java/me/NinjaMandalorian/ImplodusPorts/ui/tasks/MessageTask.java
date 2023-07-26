@@ -5,16 +5,16 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 
 public class MessageTask implements BaseTask {
 
-    private String message;
-    
-    public MessageTask(String msg) {
-        this.message = msg;
-    }
-    
-    @Override
-    public void run(InventoryClickEvent event) {
-        Player player = (Player) event.getWhoClicked();
-        player.sendMessage(message);
-    }
+	private String message;
+
+	public MessageTask(String msg) {
+		this.message = msg;
+	}
+
+	@Override
+	public void run(InventoryClickEvent event) {
+		Player player = (Player) event.getWhoClicked();
+		player.sendMessage(message);
+	}
 
 }

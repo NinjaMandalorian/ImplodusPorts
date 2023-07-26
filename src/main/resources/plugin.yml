@@ -4,12 +4,12 @@ version: 1.0.1
 api-version: 1.19
 description: Interactive port plugin for travelling across the world.
 author: NinjaMandalorian
-depend: [Vault]
+depend: [ Vault ]
 
 commands:
   implodusports:
     description: Primary command
-    softdepend: [Vault]
+    softdepend: [ Vault ]
     aliases:
       - iports
   
