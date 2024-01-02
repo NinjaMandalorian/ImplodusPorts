@@ -28,7 +28,7 @@ public class ImplodusPortsCommands implements CommandExecutor, TabCompleter {
 	}
 
 	private static void travelCommand(Player player, String[] args) {
-		Bukkit.getLogger().info("Travel recieved with destinations: " + args.toString());
+		//Bukkit.getLogger().info("Travel recieved with destinations: " + args.toString());
 
 		@SuppressWarnings("unused")
 		String[] extraParams = Arrays.copyOfRange(args, 2, args.length - 1);
