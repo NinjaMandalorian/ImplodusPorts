@@ -85,7 +85,7 @@ public class ImplodusPortsCommands implements CommandExecutor, TabCompleter {
 					TravelHandler.scheduleNext(player);
 					return true;
 				case "changesize":
-					if (player.hasPermission("implodusports.admin.changesize") && args.length > 0) {
+					if (player.hasPermission("implodusports.admin.changesize")) {
 						changeSizeCommand(player, StringHelper.remFirst(args));
 					}
 					return true;

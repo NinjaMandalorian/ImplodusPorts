@@ -176,13 +176,10 @@ public class Port {
 				continue;
 
 			}
-//			if (distance > port2Range) {
-//				continue;
-//			}
 			returnList.add(port);
 		}
 
-		if (returnList.size() == 0) {
+		if (returnList.isEmpty()) {
 			Port closestPort = null;
 			for (Port port : activePorts.values()) {
 				if (closestPort == null || this.distanceTo(closestPort) > this.distanceTo(port)) {
